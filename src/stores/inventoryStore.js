@@ -28,8 +28,8 @@ export const inventStore = defineStore('inventories',{
                 throw error
             })
         },
-        async updateInventory(storeId){
-            return await api.put(`user/inventory/${storeId}`)
+        async updateInventory(storeId,payload){
+            return await api.put(`user/inventory/${storeId}`,payload)
             .then(response => response.data)
             .catch(error => {
                 throw error

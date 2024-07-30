@@ -1,66 +1,33 @@
 <template>
   <Transition name="modals">
-    <div
-      class="absolute z-50 w-full h-screen flex justify-center items-center"
-      v-if="showModalCreateProd"
-    >
-      <form
-        @submit.prevent="createOrUpdate"
-        class="flex flex-col justify-center border rounded p-4 gap-2 bg-white w-96"
-        enctype="multipart/form-data"
-      >
+    <div class="absolute z-50 w-full h-screen flex justify-center items-center" v-if="showModalCreateProd">
+      <form @submit.prevent="createOrUpdate" class="flex flex-col justify-center border rounded p-4 gap-2 bg-white w-96"
+        enctype="multipart/form-data">
         <div class="flex flex-row justify-between">
           <h1 class="text-xl font-semibold">Create product</h1>
-          <button
-            type="button"
-            @click="close"
-            class="text-red-700 hover:text-red-500 transition-colors duration-300"
-          >
+          <button type="button" @click="close" class="text-red-700 hover:text-red-500 transition-colors duration-300">
             <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="xl" />
           </button>
         </div>
         <div class="flex flex-col">
           <label for="name">Product name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="rounded outline-none text-sm"
-            v-model="payload.name"
-          />
+          <input type="text" id="name" name="name" class="rounded outline-none text-sm" v-model="payload.name" />
         </div>
         <div class="flex flex-row gap-1 w-full">
           <div>
             <label for="price">Price</label>
-            <input
-              type="text"
-              name="price"
-              id="price"
-              class="rounded outline-none text-sm w-full"
-              v-model="payload.price"
-            />
+            <input type="text" name="price" id="price" class="rounded outline-none text-sm w-full"
+              v-model="payload.price" />
           </div>
           <div class="w-1/3">
             <label for="stock">Stock</label>
-            <input
-              type="number"
-              name="stock"
-              id="stock"
-              class="rounded outline-none text-sm w-full"
-              v-model="payload.stock"
-            />
+            <input type="number" name="stock" id="stock" class="rounded outline-none text-sm w-full"
+              v-model="payload.stock" />
           </div>
         </div>
         <div class="flex flex-col">
           <label for="image">Image</label>
-          <input
-            @change="setImgProduct"
-            class="rounded border"
-            type="file"
-            name="image"
-            id="image"
-            ref="fileInput"
-          />
+          <input @change="setImgProduct" class="rounded border" type="file" name="image" id="image" ref="fileInput" />
           <div class="w-40 h-20 overflow-hidden rounded relative" v-if="fileUpload.length !== 0">
             <button type="button" @click="clearFile" class="absolute right-0 top-2">
               <font-awesome-icon icon="fa-solid fa-circle-xmark" />
@@ -75,28 +42,18 @@
         </div>
         <div class="flex flex-col">
           <label for="info">Description</label>
-          <textarea
-            name="information"
-            id="info"
-            cols="10"
-            rows="5"
-            v-model="payload.information"
-          ></textarea>
+          <textarea name="information" id="info" cols="10" rows="5" v-model="payload.information"></textarea>
         </div>
         <div class="w-full text-right">
-          <button
-            v-if="isCreate"
-            class="bg-blue-700 w-40 h-10 text-white font-semibold hover:bg-blue-500 transition-colors duration-200 rounded"
-          >
+          <button v-if="isCreate"
+            class="bg-blue-700 w-40 h-10 text-white font-semibold hover:bg-blue-500 transition-colors duration-200 rounded">
             <p v-if="!loading">Create</p>
             <p v-else class="animate-spin">
               <font-awesome-icon icon="fa-solid fa-spinner" size="xl" />
             </p>
           </button>
-          <button
-            v-else
-            class="bg-blue-700 w-40 h-10 text-white font-semibold hover:bg-blue-500 transition-colors duration-200 rounded"
-          >
+          <button v-else
+            class="bg-blue-700 w-40 h-10 text-white font-semibold hover:bg-blue-500 transition-colors duration-200 rounded">
             <p v-if="!loading">Edit</p>
             <p v-else class="animate-spin">
               <font-awesome-icon icon="fa-solid fa-spinner" size="xl" />
@@ -204,11 +161,11 @@ const pairsPayload = (data) => {
 const createProduct = async () => {
   loading.value = true
   const newPayload = {
-    name:  payload.name,
-    stock : payload.stock,
-    price : formatterRupiah.convertToNumber(payload.price),
-    information : payload.information,
-    storeId: store.dataStore?.id ? store.dataStore.id : userStore().userData.member 
+    name: payload.name,
+    stock: payload.stock,
+    price: formatterRupiah.convertToNumber(payload.price),
+    information: payload.information,
+    storeId: store.dataStore?.id ? store.dataStore.id : userStore().userData.member
   }
   const dataForm = pairsPayload(newPayload)
   await store
@@ -241,10 +198,10 @@ const updateProduct = async () => {
   console.log('update')
   loading.value = true
   const newPayload = {
-    name:  payload.name,
-    stock : payload.stock,
-    price : formatterRupiah.convertToNumber(payload.price),
-    information : payload.information,
+    name: payload.name,
+    stock: payload.stock,
+    price: formatterRupiah.convertToNumber(payload.price),
+    information: payload.information,
     storeId: store.dataStore.id
   }
   const dataForm = pairsPayload(newPayload)
@@ -286,9 +243,9 @@ watch(
   }
 )
 
-watch(() => payload.price , (newValue) => {
+watch(() => payload.price, (newValue) => {
 
-    payload.price = formatterRupiah.formatRupiah(newValue.toString());
+  payload.price = formatterRupiah.formatRupiah(newValue.toString());
 });
 
 </script>

@@ -4,6 +4,7 @@
             <section class="p-8 mt-10 relative font-poppins">
                 <recapModal :is-recap="isRecap" :is-finance="isFinance" @close="closeModalRecap"
                     @sendInfo="acceptInfo" />
+                    <editRecapModal :is-show-update="showUpdate" @close="closeModalUpdate" :is-update-fin="isUpdateFin" :data-fin="dataFin" />
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>
@@ -33,8 +34,8 @@
                             <template #item-profit="{ profit }">
                                 {{ formatterRupiah.formatPriceToIDR(profit) ?? 0 }}
                             </template>
-                            <template #item-exp="{ exp }">
-                                {{ exp ? formatterRupiah.formatPriceToIDR(exp) : 0 }}
+                            <template #item-expenditure="{ expenditure }">
+                                {{ expenditure ? formatterRupiah.formatPriceToIDR(expenditure) : 0 }}
                             </template>
                             <template #item-loss="{ loss }">
                                 {{ formatterRupiah.formatPriceToIDR(loss) ?? 0 }}
@@ -43,8 +44,8 @@
                                 {{ information ? information
                                     : 'information not available' }}
                             </template>
-                            <template #item-action>
-                                <button class="rounded-md bg-blue-600 hover:bg-slate-800 hover:text-white p-2 text-white">
+                            <template #item-action="item">
+                                <button @click="showUpdateModal(item)"  type="button" class="rounded-md bg-blue-600 hover:bg-slate-800 hover:text-white p-2 text-white">
                                     <font-awesome-icon icon="fa-solid fa-pen-to-square" size="lg" />
                                 </button>
                             </template>
@@ -59,6 +60,7 @@
 <script setup>
 import MainLayout from '@/layout/mainLayout.vue';
 import recapModal from '@/components/modal/recapModal.vue'
+import editRecapModal from '@/components/modal/editRecapModal.vue'
 import { computed, onMounted, reactive, ref } from 'vue';
 import { recapStore } from '@/stores/recapStore';
 import { storeShop } from '@/stores/storeShop';
@@ -84,7 +86,7 @@ const headers = [
     },
     {
         text: 'Expenditue',
-        value: 'exp'
+        value: 'expenditure'
     },
     {
         text: 'Loss',
@@ -104,7 +106,10 @@ const items = computed(() => recap.getDataRecap)
 
 const isRecap = ref(false),
     isFinance = ref(false),
-    isLoading = ref(false)
+    isLoading = ref(false),
+    showUpdate = ref(false),
+    isUpdateFin = ref(false),
+    dataFin = ref({})
 
 const info = reactive({
     message: '',
@@ -122,6 +127,17 @@ const showModalRecap = () => {
 const closeModalRecap = async (data) => {
     isRecap.value = data
     isFinance.value = data
+    await getRecapFinance()
+}
+
+const showUpdateModal = (data)=> {
+    showUpdate.value = !showUpdate.value
+    isUpdateFin.value = !isUpdateFin.value
+    dataFin.value = data
+}
+const closeModalUpdate = async (data) => {
+    showUpdate.value = data
+    isUpdateFin.value = data
     await getRecapFinance()
 }
 
