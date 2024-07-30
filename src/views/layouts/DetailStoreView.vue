@@ -24,7 +24,7 @@
         <!-- list product -->
         <div  v-if="store.dataAllStore[0].products !== undefined && Object.entries(store.dataAllStore[0].products).length !== 0"  class="w-full h-full pl-28 pr-28 p-2 flex flex-wrap gap-2 bg-gradient-to-b from-indigo-900 to-black rounded-t-md ">
             <div class="w-full h-full flex flex-wrap gap-2 justify-center items-center">
-                <div class="border-2 border-dashed  w-60 h-90 overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white "
+                <div class="border w-60 h-90 overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white "
                     v-for="product, i of store.dataAllStore[0].products" :key="i">
                     <div class="h-40 overflow-hidden flex justify-center items-center ">
                         <picture>
@@ -34,7 +34,10 @@
                     <!-- products information -->
                     <div class="p-2 text-sm w-full flex flex-col gap-y-3">
                         <div class="flex flex-row h-10 w-full items-center">
-                            <h3 class="font-bold w-full">{{ product.name }}</h3>
+                            <div class="flex flex-col w-full">
+                                <h3 class="font-bold w-full">{{ product.name }}</h3>
+                                <h1>Stock: {{ product.stock }}</h1>
+                            </div>
                             <h4 class="font-semibold overflow-auto w-full">
                                 {{ formatterRupiah.formatPriceToIDR(product.price) }}
                             </h4>

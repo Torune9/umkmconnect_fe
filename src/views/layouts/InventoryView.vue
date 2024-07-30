@@ -6,7 +6,7 @@
                 <editRecapModal :is-show-update="showUpdate" :is-update-inv="isUpdateInv" @close="closeModalUpdate"  :data-invent="dataInvent"/>
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Inventories</h1>
-                    <button type="button" @click="showModalRecap"
+                    <button v-if="!userStore().isEmployee" type="button" @click="showModalRecap"
                         class="bg-indigo-600 p-2 font-poppins text-sm rounded font-bold w-28 text-white hover:bg-indigo-500 transition-all duration-300">
                         Create
                     </button>
@@ -53,6 +53,7 @@ import { computed, onMounted, ref, reactive } from 'vue';
 import { inventStore } from '@/stores/inventoryStore';
 import { storeShop } from '@/stores/storeShop';
 import formatterRupiah from '@/service/utils/formatterRupiah';
+import { userStore } from '@/stores/userStore';
 
 const invent = inventStore()
 const store = storeShop()

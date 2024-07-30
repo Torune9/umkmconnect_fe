@@ -8,7 +8,7 @@
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>
-                    <button @click="showModalRecap" type="button"
+                    <button v-if="!userStore().isEmployee"  @click="showModalRecap" type="button"
                         class="bg-green-600 p-2 font-poppins text-sm rounded font-bold w-28 text-white hover:bg-green-500 transition-all duration-300">
                         Recap
                     </button>
@@ -66,6 +66,7 @@ import { recapStore } from '@/stores/recapStore';
 import { storeShop } from '@/stores/storeShop';
 import formatterRupiah from '@/service/utils/formatterRupiah';
 import { formatDate } from '@/service/utils/formatDate';
+import { userStore } from '@/stores/userStore';
 
 const recap = recapStore()
 const store = storeShop()

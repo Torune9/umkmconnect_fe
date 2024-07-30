@@ -5,7 +5,7 @@
             <section class="p-8 mt-10 flex flex-col gap-y-2 font-poppins ">
                 <h1 class="text-2xl  font-bold text-center border-b p-1">List Employee</h1>
                 <div class="flex flex-wrap gap-x-2 justify-center gap-y-2 max-sm:p-4">
-                    <div v-for="employee,i of employees "  class="rounded overflow-hidden shadow-md w-40 h-fit max-sm:w-full  relative" :key="i">
+                    <div v-for="employee,i of employees "  class="rounded overflow-hidden shadow-md w-64 h-fit max-sm:w-full  relative" :key="i">
                         <picture>
                             <div class="border h-56 w-full overflow-hidden flex items-center">
                                 <img v-if="employee.profile" :src="`${URL}source/profile/${employee.profile}`" alt="profile image" class="h-full w-full object-cover" >
@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                         </picture>
-                        <div class=" p-2 sm:p-4 text-[12px] flex flex-col gap-y-2 text-green-700 font-semibold ">
+                        <div class=" p-2 sm:p-4 text-[12px] flex flex-col gap-y-2 text-blue-900 font-semibold ">
                             <h1 class="font-bold bg-blue-600 p-1 rounded text-zinc-100 text-center">Member</h1>
                             <h1>Name : {{ employee.username }}</h1>
                             <h1>Email : {{ employee.email }}</h1>
@@ -36,7 +36,7 @@ import { onMounted, ref } from 'vue';
 
 const store = storeShop()
 
-const URL = import.meta.env.VUE_BASE_URL
+const URL = import.meta.env.VITE_APP_BASE_URL
 
 const isLoading = ref(false)
 const employees = ref([])
