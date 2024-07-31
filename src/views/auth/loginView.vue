@@ -133,6 +133,12 @@ onMounted(()=>{
         inform.success.message = 'Register Success'
          inform.type = 'success'
     }
+    if (route?.query.isSent) {
+        inform.errors.message = null
+        info.value = true
+        inform.success.message = 'Password reset link has been sent if the email is correct, please check your email'
+         inform.type = 'success'
+    }
 })
 
 watch(formData,()=>info.value = false)

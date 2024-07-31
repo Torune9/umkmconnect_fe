@@ -75,6 +75,13 @@ export const userStore = defineStore('users',{
             .catch(error => {
                 throw error
             })
+        },
+        async forgotPassowrd(email){
+            return await api.post('/user/password/forgot',email)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
         }
     },
     getters : {

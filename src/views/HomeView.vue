@@ -5,13 +5,10 @@
   <!-- konten/content -->
 
   <main class="h-full w-full flex flex-col p-8  bg-gradient-to-r from-homeMain to-homeSec text-homeThird gap-y-10">
-    <div class="mt-10 h-96 grid sm:grid-cols-2 overflow-hidden rounded max-sm:grid-rows-2">
+    <div class="mt-10 h-96 grid overflow-hidden rounded">
       <div class="flex flex-col justify-center items-center text-xl font-poppins">
         <h1 class="font-inter font-bold text-slate-400 md:text-5xl">Selamat Datang</h1>
         <h1 class="text-slate-500 text-center">Mengelola Tugas UMKM dengan Mudah dan Efisien</h1>
-      </div>
-      <div class="w-full overflow-hidden">
-        <img src="/laptop.jpg" alt="laptop" class=" object-cover h-full w-full">
       </div>
     </div>
     <div class="md:pl-48 md:pr-48">

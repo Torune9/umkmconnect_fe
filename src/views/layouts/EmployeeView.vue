@@ -32,6 +32,7 @@
 import LoadingPage from '@/components/util/loadingPage.vue';
 import MainLayout from '@/layout/mainLayout.vue';
 import { storeShop } from '@/stores/storeShop';
+import { userStore } from '@/stores/userStore';
 import { onMounted, ref } from 'vue';
 
 const store = storeShop()
@@ -43,7 +44,7 @@ const employees = ref([])
 
 const getEmployee = async () => {
     isLoading.value = !isLoading.value
-    return await store.getEmployee(store.dataStore.id)
+    return await store.getEmployee(store.dataStore?.id ? store.dataStore.id : userStore().dataStoreEmployee.id)
         .then(response => {
             employees.value = [...response.data]
         })
