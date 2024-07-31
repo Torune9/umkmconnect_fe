@@ -1,15 +1,22 @@
 <template>
-    <NavBarMain v-if="user.isLogin"/>
-    <NavBarHome v-else  class="bg-white"/>
-    <LoadingPage :isLoading="isLoading"/>
+    <NavBarMain v-if="user.isLogin" />
+    <NavBarHome v-else class="bg-white" />
+    <LoadingPage :isLoading="isLoading" />
     <!-- Lists Store-->
     <section class="flex flex-col items-center w-full h-full">
         <header>
             <h1 class="text-4xl font-black p-4 font-inter text-second">STORE</h1>
         </header>
-        <main class="h-full w-full grid lg:grid-cols-3 sm:grid-cols-2 max-sm:grid-cols-1 justify-items-center  p-4 gap-3 ">
-            <cardStore :dataStore="[...store.dataAllStore]"/>
+        <main
+            class="h-full w-full grid lg:grid-cols-3 sm:grid-cols-2 max-sm:grid-cols-1 justify-items-center  p-4 gap-3 "
+            v-if="Object.entries(store.dataAllStore).length !== 0">
+            <cardStore :dataStore="[...store.dataAllStore]" />
         </main>
+        <div v-else class="flex justify-center items-center h-screen w-full bg-black/20">
+            <h1 class="font-semibold text-3xl text-slate-400 text-center">
+                STORES NOT FOUND
+            </h1>
+        </div>
     </section>
 </template>
 
@@ -28,18 +35,18 @@ const user = userStore()
 const isLoading = ref(false)
 
 
-const getAllStore = async ()=>{
+const getAllStore = async () => {
     isLoading.value = !isLoading.value
     await store.getAllStore()
-    // .catch(error => {
-    //     console.log(error.response);
-    // })
-    .finally(()=>{
-        isLoading.value = !isLoading.value
-    })
+        // .catch(error => {
+        //     console.log(error.response);
+        // })
+        .finally(() => {
+            isLoading.value = !isLoading.value
+        })
 }
 
-onMounted(async()=>{
+onMounted(async () => {
     await getAllStore()
 })
 </script>

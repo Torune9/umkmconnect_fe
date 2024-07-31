@@ -158,7 +158,7 @@ const getWorkspace = async () => {
                 workspace.tasks = [...workspace.tasks, ...val.tasks]
             })
         })
-        // .catch((error) => console.log(error))
+        .catch((error) => console.log(error))
         .finally(() => {
             isLoading.value = !isLoading.value
         })
@@ -191,7 +191,6 @@ const getStore = async () => {
     loadingPage.value = !loadingPage.value
     await shop.getStore(user.userData.id)
         .then(response => {
-            // console.log(response);
             storeData.value = response.data
         })
         .catch(() => {
