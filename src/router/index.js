@@ -85,7 +85,6 @@ const router = createRouter({
       path : '/store/profile/detail/:code?',
       name : 'storeProfileDetail',
       component : DetailStoreView,
-      meta: { requiresAuth: true }
     },
     {
       path : '/user/profile',

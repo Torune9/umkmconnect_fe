@@ -1,5 +1,6 @@
 <template>
-    <NavBarMain />
+   <NavBarMain v-if="user.isLogin" />
+   <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading"/>
     <section class="w-full h-full flex flex-col items-center font-poppins gap-1 p-4 ">
         <!-- profile -->
@@ -62,15 +63,18 @@
 
 <script setup>
 import NavBarMain from '@/components/navigations/navBarMain.vue';
+import NavBarHome from '@/components/navigations/navBarHome.vue';
 import { storeShop } from '@/stores/storeShop';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import formatterRupiah from '@/service/utils/formatterRupiah';
 import LoadingPage from '@/components/util/loadingPage.vue';
+import { userStore } from '@/stores/userStore';
 
 const store = storeShop()
 const route = useRoute()
 const URL = import.meta.env.VITE_APP_BASE_URL;
+const user = userStore()
 
 const isLoading = ref(false)
 

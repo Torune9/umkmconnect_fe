@@ -51,7 +51,7 @@ import { recapStore } from '@/stores/recapStore';
 import { storeShop } from '@/stores/storeShop';
 import { userStore } from '@/stores/userStore';
 import { workspaceStore } from '@/stores/workspaceStore';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const workspace = workspaceStore()
@@ -110,8 +110,7 @@ const logout = ()=>{
     inventStore().$reset()
     recapStore().$reset()
     workspaceStore().$reset()
+    router.replace('/user/login')
 }
-
-watch(()=>user.isLogin,()=> !user.isLogin ? router.replace('/user/login') : '')
 
 </script>
