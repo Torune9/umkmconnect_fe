@@ -48,9 +48,9 @@ const getEmployee = async () => {
         .then(response => {
             employees.value = [...response.data]
         })
-        .catch(error => {
-            console.log(error);
-        })
+        // .catch(error => {
+        //     console.log(error);
+        // })
         .finally(() => {
             isLoading.value = !isLoading.value
         })

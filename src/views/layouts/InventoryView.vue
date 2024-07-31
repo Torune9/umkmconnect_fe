@@ -89,10 +89,9 @@ const isRecap = ref(false),
     isUpdateInv = ref(false),
     dataInvent = ref({})
 
-const showModalRecap = (data) => {
+const showModalRecap = () => {
     isRecap.value = !isRecap.value
     isInvent.value = !isInvent.value
-    console.log(data);
 }
 const closeModalRecap = async (data) => {
     isRecap.value = data
@@ -112,7 +111,6 @@ const showUpdateModal = (data) => {
 }
 
 const closeModalUpdate =async (data) => {
-    console.log(data);
     showUpdate.value = data
     isUpdateInv.value = data
     await getInventories()
@@ -125,12 +123,12 @@ const acceptInfo = ({ message, type }) => {
 const getInventories = async () => {
     isLoading.value = !isLoading.value
     await invent.getInventories(store.dataStore.id)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        // .then(response => {
+        //     console.log(response);
+        // })
+        // .catch(error => {
+        //     console.log(error);
+        // })
         .finally(() => {
             isLoading.value = !isLoading.value
         })

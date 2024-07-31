@@ -105,14 +105,13 @@ const updateUser = async ()=>{
     formData.append('password',payload.password)
     formData.append('image',fileUpload.value[0])
     await user.updateUser(formData)
-        .then(response => {
+        .then(() => {
             userData.value.username = payload.username ? payload.username : userData.value.username
             userData.value.email = payload.email ? payload.email : userData.value.email
-            console.log(response);
         })
         .catch(error => {
             message.value = error.response.data.message
-            console.log(error);
+            // console.log(error);
         })
         .finally(async ()=>{
             isLoading.value = !isLoading.value

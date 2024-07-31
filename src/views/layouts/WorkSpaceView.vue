@@ -271,7 +271,7 @@ const getWorkspace = async () => {
         workspace.tasks = [...workspace.tasks, ...val.tasks]
       })
     })
-    .catch((error) => console.log(error))
+    // .catch((error) => console.log(error))
     .finally(() => {
       isLoading.value = !isLoading.value
     })
@@ -283,33 +283,30 @@ const getWorkspaceByStatus = async () => {
     taskByStatus.value =   response.data.reduce((acc, current) => {
         return acc.concat(current.tasks);
       }, [])
-      console.log(taskByStatus.value);
     })
-    .catch(error => {
-      console.log(error);
-    })
+    // .catch(error => {
+    //   console.log(error);
+    // })
     .finally(() => {
       isLoadingByStatus.value = !isLoadingByStatus.value
     })
 }
 
 const setStatus = async (id, status) => {
-  console.log(id, status)
   return await workspace
     .setStatus(id, status)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error))
+    // .then((response) => console.log(response))
+    // .catch((error) => console.log(error))
     .finally(async () => {
       await getWorkspace()
       await getWorkspaceByStatus()
     })
 }
 const setUser = async (id, userId) => {
-  console.log(id, userId)
   return await workspace
     .setUser(id, userId)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error))
+    // .then((response) => console.log(response))
+    // .catch((error) => console.log(error))
     .finally(async () => {
       await getWorkspace()
       await getWorkspaceByStatus()
@@ -326,9 +323,8 @@ const getStoreAsEmployee = async () => {
       workspaces.forEach((val) => {
         workspace.tasks = [...workspace.tasks, ...val.tasks]
       })
-      console.log(response.data.members.workspaces)
     })
-    .catch((error) => console.log(error))
+    // .catch((error) => console.log(error))
 }
 
 watch(

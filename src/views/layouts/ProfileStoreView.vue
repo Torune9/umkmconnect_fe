@@ -149,7 +149,6 @@ const closeModalCreateprod = async (data) => {
 const acceptMessage = ({ message, type }) => {
     infoMessage.value = message
     infoType.value = type
-    console.log(type);
 }
 
 const getProductsStore = async () => {
@@ -159,9 +158,9 @@ const getProductsStore = async () => {
             const { products } = response.data
             store.dataProducts = products
         })
-        .catch(error => {
-            console.log(error);
-        })
+        // .catch(error => {
+        //     console.log(error);
+        // })
         .finally(() => loading.value = !loading.value)
 }
 

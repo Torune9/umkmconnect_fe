@@ -158,7 +158,7 @@ const getWorkspace = async () => {
                 workspace.tasks = [...workspace.tasks, ...val.tasks]
             })
         })
-        .catch((error) => console.log(error))
+        // .catch((error) => console.log(error))
         .finally(() => {
             isLoading.value = !isLoading.value
         })
@@ -168,10 +168,8 @@ const isModalShow = ref(false),
     isCreate = ref(false)
 
 const closeModal = async (data) => {
-    console.log(data);
     isModalShow.value = data
     if (user.isEmployee) {
-        console.log('test');
         return await getStoreAsEmployee()
     } else {
         if (shop.isShowStore) {
@@ -193,20 +191,19 @@ const getStore = async () => {
     loadingPage.value = !loadingPage.value
     await shop.getStore(user.userData.id)
         .then(response => {
-            console.log(response);
+            // console.log(response);
             storeData.value = response.data
         })
         .catch(() => {
             storeData.value = {}
         })
         .finally(() => loadingPage.value = !loadingPage.value)
-    console.log(storeData.value);
 }
 
 const getStoreAsEmployee = async () => {
     await user.getStoreAsEmployee(user.userData.email)
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+        // .then(response => console.log(response))
+        // .catch(error => console.log(error))
 }
 
 onMounted(async () => {
@@ -219,7 +216,6 @@ onMounted(async () => {
     if (user.isEmployee) {
         return await getStoreAsEmployee()
     } else {
-        console.log('test');
         return await getStore()
     }
 

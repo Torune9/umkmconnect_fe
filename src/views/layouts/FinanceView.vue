@@ -144,18 +144,16 @@ const closeModalUpdate = async (data) => {
 
 const getRecapFinance = async () => {
     isLoading.value = !isLoading.value
-    console.log('test');
     await recap.recapFinance(store.dataStore?.id)
-        .catch(error => {
-            console.log(error);
-        })
+        // .catch(error => {
+        //     console.log(error);
+        // })
         .finally(() => {
             isLoading.value = !isLoading.value
         })
 }
 
 onMounted(async () => {
-    console.log(items.value);
     if (store.dataStore.id) {
         await getRecapFinance()
     }

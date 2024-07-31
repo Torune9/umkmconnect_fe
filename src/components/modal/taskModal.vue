@@ -101,10 +101,10 @@ const createWorkOrTask = async ()=>{
 
     if (props.isWorkspace) {
         return await workspace.createWorkspace(payloadWork)
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => console.log(error))
+        // .then(response => {
+        //     console.log(response)
+        // })
+        // .catch(error => console.log(error))
         .finally(()=>{
             loading.value = !loading.value
             close()
@@ -112,8 +112,8 @@ const createWorkOrTask = async ()=>{
     }
     if (props.isTask) {
         return await workspace.taskCreate(payloadTask)
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+        // .then(response => console.log(response))
+        // .catch(error => console.log(error))
         .finally(()=>{
             loading.value = !loading.value
             close()

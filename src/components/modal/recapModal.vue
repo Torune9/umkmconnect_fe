@@ -141,14 +141,12 @@ const recapFinance = async ()=> {
 
     }
     return await recap.createRecapFinance(newpayloadFinance)
-        .then(response => {
+        .then(() => {
             sendInfo('Success adding recap','success')
-            console.log(response);
         })
         .catch(error => {
             const {data:{message}} = error.response
             sendInfo(`Failed adding recap,${message}`,'danger')
-            console.log(error);
         })
         .finally(() => {
             isLoading.value = !isLoading.value
@@ -167,14 +165,12 @@ const createInvent = async ()=>{
 
     }
     await invent.createInventory(newpayloadFinance)
-    .then(response => {
-        console.log(response);
+    .then(() => {
         sendInfo('Success adding inventory','success')
     })
     .catch(error => {
         const {data:{message}} = error.response
         sendInfo(`Failed adding inventory,${message}`,'danger')
-        console.log(error);
     })
     .finally(()=>{
         isLoading.value = !isLoading.value

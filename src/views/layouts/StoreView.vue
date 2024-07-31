@@ -1,8 +1,9 @@
 <template>
-    <NavBarMain />
+    <NavBarMain v-if="user.isLogin"/>
+    <NavBarHome v-else  class="bg-white"/>
     <LoadingPage :isLoading="isLoading"/>
     <!-- Lists Store-->
-    <section class="flex flex-col items-center w-full h-full ">
+    <section class="flex flex-col items-center w-full h-full">
         <header>
             <h1 class="text-4xl font-black p-4 font-inter text-second">STORE</h1>
         </header>
@@ -18,8 +19,11 @@ import cardStore from '@/components/card/cardStore.vue'
 import { storeShop } from '@/stores/storeShop';
 import { onMounted, ref } from 'vue';
 import LoadingPage from '@/components/util/loadingPage.vue';
+import NavBarHome from '@/components/navigations/navBarHome.vue';
+import { userStore } from '@/stores/userStore';
 
 const store = storeShop()
+const user = userStore()
 
 const isLoading = ref(false)
 
@@ -27,9 +31,9 @@ const isLoading = ref(false)
 const getAllStore = async ()=>{
     isLoading.value = !isLoading.value
     await store.getAllStore()
-    .catch(error => {
-        console.log(error.response);
-    })
+    // .catch(error => {
+    //     console.log(error.response);
+    // })
     .finally(()=>{
         isLoading.value = !isLoading.value
     })

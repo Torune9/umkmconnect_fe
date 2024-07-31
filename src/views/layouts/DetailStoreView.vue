@@ -77,12 +77,12 @@ const isLoading = ref(false)
 const getDetailStore = async () => {
     isLoading.value = !isLoading.value
     await store.getAllStore(route.params.code)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error.response);
-        })
+        // .then(response => {
+        //     console.log(response);
+        // })
+        // .catch(error => {
+        //     console.log(error.response);
+        // })
         .finally(() => {
             isLoading.value = !isLoading.value
         })

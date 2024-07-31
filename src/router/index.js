@@ -74,7 +74,6 @@ const router = createRouter({
       path : '/store',
       name : 'store',
       component : StoreView,
-      meta: { requiresAuth: true }
     },
     {
       path : '/store/profile',

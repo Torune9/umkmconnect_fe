@@ -72,7 +72,6 @@ const setStatus = (status) => {
     emits('setStatus',{status,taskId : props.taskId})
 };
 const setUser = (userId) => {
-    console.log(props.taskId);
     emits('setUser',{userId,taskId : props.taskId})
 };
 

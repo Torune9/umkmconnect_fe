@@ -170,13 +170,12 @@ const createProduct = async () => {
   const dataForm = pairsPayload(newPayload)
   await store
     .createProduct(dataForm)
-    .then((response) => {
+    .then(() => {
       messages.value = 'Success adding product'
       emits('sendMessage', {
         message: messages.value,
         type: 'success'
       })
-      console.log(response)
     })
     .catch((error) => {
       const {
@@ -195,7 +194,6 @@ const createProduct = async () => {
 }
 
 const updateProduct = async () => {
-  console.log('update')
   loading.value = true
   const newPayload = {
     name: payload.name,
@@ -207,16 +205,14 @@ const updateProduct = async () => {
   const dataForm = pairsPayload(newPayload)
   await store
     .updateProduct(props.productData.id, dataForm)
-    .then((response) => {
+    .then(() => {
       messages.value = 'Success update product'
       emits('sendMessage', {
         message: messages.value,
         type: 'success'
       })
-      console.log(response)
     })
     .catch((error) => {
-      console.log(error)
       const { message } = error.response.data
       messages.value = 'Failed to update product,' + message
       emits('sendMessage', {

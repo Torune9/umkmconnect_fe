@@ -33,18 +33,13 @@
 </template>
 
 <script setup>
-import { storeShop } from '@/stores/storeShop';
-import { userStore } from '@/stores/userStore';
 
-
-const props = defineProps({
+defineProps({
     closePage :{
         type : Boolean,
         default : false
     }
 })
-const shop = storeShop()
-const store = userStore()
 
 const emits = defineEmits(['showCreateStore','showJoinStore'])
 const showCreateStore = ()=>{

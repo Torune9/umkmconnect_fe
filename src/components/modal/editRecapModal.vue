@@ -122,12 +122,6 @@ const updateInvOrFin = async () => {
             description: payloadInvent.description
         }
         return await invent.updateInventory(store.dataStore.id, payload)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
             .finally(() => {
                 isLoading.value = !isLoading.value
                 close()
@@ -142,12 +136,6 @@ const updateInvOrFin = async () => {
             information : payloadRecap.information
         }
         return await recap.updateRecapFinance(store.dataStore.id,payload)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
             .finally(() => { 
                 isLoading.value = !isLoading.value
                 close()
@@ -162,7 +150,6 @@ watch(() => props.dataInvent, () => {
         payloadInvent.description = props.dataInvent.description
 })
 watch(() => props.dataFin, () => {
-    console.log(props.dataFin);
     payloadRecap.income = props.dataFin.income
     payloadRecap.exp = props.dataFin.expenditure
     payloadRecap.information = props.dataFin.information
