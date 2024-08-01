@@ -1,7 +1,11 @@
 <template>
-    <NavBarMain v-if="user.isLogin" />
+    <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
     <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading" />
+    <Transition name="sidebar">
+        <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @createWorkspace="workspaceCreate"
+            @click="sideBar(false)" v-if="dataSide" />
+    </Transition>
     <!-- Lists Store-->
     <section class="flex flex-col items-center w-full h-full">
         <header>
@@ -28,11 +32,13 @@ import { onMounted, ref } from 'vue';
 import LoadingPage from '@/components/util/loadingPage.vue';
 import NavBarHome from '@/components/navigations/navBarHome.vue';
 import { userStore } from '@/stores/userStore';
+import SideBar from '@/components/navigations/sideBar.vue';
 
 const store = storeShop()
 const user = userStore()
 
 const isLoading = ref(false)
+const dataSide  = ref(false)
 
 
 const getAllStore = async () => {
@@ -44,6 +50,12 @@ const getAllStore = async () => {
         .finally(() => {
             isLoading.value = !isLoading.value
         })
+}
+
+
+const sideBar = (data) => {
+    dataSide.value = data
+    console.log(data);
 }
 
 onMounted(async () => {

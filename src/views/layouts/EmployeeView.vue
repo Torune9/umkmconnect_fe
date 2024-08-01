@@ -4,8 +4,8 @@
         <template v-slot:body>
             <section class="p-8 mt-10 flex flex-col gap-y-2 font-poppins ">
                 <h1 class="text-2xl  font-bold text-center border-b p-1">List Employee</h1>
-                <div class="flex flex-wrap gap-x-2 justify-center gap-y-2 max-sm:p-4">
-                    <div v-for="employee,i of employees "  class="rounded overflow-hidden shadow-md w-64 h-fit max-sm:w-full  relative" :key="i">
+                <div class="flex flex-wrap gap-x-2 justify-center gap-y-2 max-sm:p-4" v-if="employees.length !== 0" >
+                    <div  v-for="employee,i of employees "  class="rounded overflow-hidden shadow-md w-64 h-fit max-sm:w-full  relative" :key="i">
                         <picture>
                             <div class="border h-56 w-full overflow-hidden flex items-center">
                                 <img v-if="employee.profile" :src="`${URL}source/profile/${employee.profile}`" alt="profile image" class="h-full w-full object-cover" >
@@ -22,6 +22,11 @@
                             <h1>Email : {{ employee.email }}</h1>
                         </div>
                     </div>
+                </div>
+                <div v-else class="w-full h-screen bg-black/20 flex justify-center items-center">
+                    <h1 class="text-center text-2xl text-slate-400 font-semibold">
+                        Don't have employee
+                    </h1>
                 </div>
             </section>
         </template>
