@@ -202,6 +202,10 @@ const statuses = [
     status: 'pending',
     color: 'text-yellow-600 bg-yellow-200'
   },
+  {
+    status: 'out-date',
+    color: 'text-red-600 bg-red-200'
+  },
 ]
 
 const radioOption = [

@@ -31,22 +31,7 @@
                         <div class="flex flex-col p-2">
                             <!-- barchart finance -->
                             <div>
-                                <bar-chart :chartData="testData" height="300" />
-                            </div>
-                            <!-- Finance umkm -->
-                            <div class="flex flex-wrap justify-center font-bold font-poppins">
-                                <div class="shadow-lg text-sm flex flex-col gap-y-5 p-3">
-                                    <p>Income</p>
-                                    <p class=" font-normal">Rp 1.000.000.000</p>
-                                </div>
-                                <div class="shadow-lg text-sm flex flex-col gap-y-5 p-3">
-                                    <p>Expenditure</p>
-                                    <p class=" font-normal">Rp 900.000.000</p>
-                                </div>
-                                <div class="shadow-lg text-sm flex flex-col gap-y-5 p-3">
-                                    <p>Profit & Loss</p>
-                                    <p class=" font-normal">Rp 700.000.000/Rp 400.000.000</p>
-                                </div>
+                                <bar-chart :chartData="chartData" height="300" />
                             </div>
                         </div>
                     </section>
@@ -56,17 +41,6 @@
                         <div class="h-full">
                             <pie-chart :chartData="testData" height="300" />
                         </div>
-                        <!-- list employee -->
-                        <div>
-                            <ul
-                                class="h-full flex items-center justify-center flex-wrap text-sm font-poppins font-bold gap-2">
-                                <li class="shadow-md p-1">1.employee</li>
-                                <li class="shadow-md p-1">2.employee</li>
-                                <li class="shadow-md p-1">3.employee</li>
-                                <li class="shadow-md p-1">4.employee</li>
-                                <li class="shadow-md p-1">5.employee</li>
-                            </ul>
-                        </div>
                     </section>
 
                 </section>
@@ -74,14 +48,21 @@
                     <!-- list category -->
                     <EasyDataTable :headers="headers" :items="items" :rows-per-page="5" :rows-items="[10]"
                         table-class-name="customize-table" class="font-poppins">
-                        <template #item-dueDate="{dueDate}">
+                        <template #item-dueDate="{ dueDate }">
                             <button>
                                 <font-awesome-icon icon="fa-regular fa-calendar" size="xl" />
                                 {{ formatDate(dueDate) }}
                             </button>
                         </template>
                         <template #item-user_task="{ user_task }">
-                            {{ user_task?.username ?? 'unknown' }}
+                            <p class="p-1 w-fit bg-indigo-400 rounded">
+                                {{ user_task?.username ?? 'unknown' }}
+                            </p>
+                        </template>
+                        <template #item-status="{status}">
+                            <p class="ml-2 p-1 text-sm rounded w-fit text-center" :class="getStatusColor(status)">
+                                {{ status ?? 'unknown' }}
+                            </p>
                         </template>
                     </EasyDataTable>
                 </section>
@@ -101,25 +82,85 @@ import { workspaceStore } from '@/stores/workspaceStore';
 
 import { onMounted, ref, computed } from 'vue'
 import { formatDate } from '@/service/utils/formatDate';
-const workspace = workspaceStore()
+import { recapStore } from '@/stores/recapStore';
 
+const workspace = workspaceStore()
 const user = userStore()
 const shop = storeShop()
+const recap = recapStore()
+
 const storeData = ref({})
 const loadingPage = ref(false),
     isLoading = ref(false)
 
-
-
-const testData = {
-    labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+const testData = ref({
+    labels: ['Finish', 'Progress', 'Pending','OutDate'],
     datasets: [
         {
-            data: [30, 40, 60, 70, 5],
-            backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
-        },
+            label: 'Task Status',
+            backgroundColor: ['#379777', '#03346E', '#F4CE14','#F5004F'],
+            data: [0, 0, 0,0] // Placeholder data
+        }
+    ]
+})
+
+const calculateTaskStatus = () => {
+    let finish = 0;
+    let progress = 0;
+    let pending = 0;
+    let outdate = 0;
+
+
+    workspace.tasks.forEach((task) => {
+        if (task.status === 'finish') {
+            finish++;
+        } else if (task.status === 'progress') {
+            progress++;
+        }else if (task.status === 'pending') {
+            pending++;
+        }
+         else {
+            outdate++;
+        }
+    });
+
+    testData.value.datasets[0].data = [finish, progress,pending,outdate];
+}
+
+const chartData = ref({
+    labels: ['Income', 'Expenditure', 'Profit', 'Loss'],
+    datasets: [
+        {
+            label: 'Total for the Month',
+            backgroundColor: ['#4CAF50', '#FF5733', '#FFC300', '#C70039'],
+            data: [0, 0, 0, 0],
+        }
     ],
-};
+})
+const calculateTotals = () => {
+    let totalIncome = 0;
+    let totalExpenditure = 0;
+    let totalProfit = 0;
+    let totalLoss = 0;
+
+    dataRecap.value.forEach((item) => {
+        totalIncome += parseInt(item.income) || 0;
+        totalExpenditure += parseInt(item.expenditure) || 0;
+
+        if (item.profit !== null && item.profit !== undefined) {
+            totalProfit += parseInt(item.profit);
+        } else {
+            totalProfit += parseInt(item.income) - parseInt(item.expenditure);
+        }
+
+        if (item.loss !== null && item.loss !== undefined) {
+            totalLoss += parseInt(item.loss);
+        }
+    });
+
+    chartData.value.datasets[0].data = [totalIncome, totalExpenditure, totalProfit, totalLoss];
+}
+
 const headers = [
     {
         text: 'Name',
@@ -145,6 +186,31 @@ const items = computed(() => {
         return workspace.getDataWorkspace.data[0]
     }
 })
+const statuses = [
+  {
+    status: 'finish',
+    color: 'text-green-800 bg-green-200'
+  },
+  {
+    status: 'progress',
+    color: 'text-blue-600 bg-blue-200'
+  },
+  {
+    status: 'pending',
+    color: 'text-yellow-600 bg-yellow-200'
+  },
+  {
+    status: 'out-date',
+    color: 'text-red-600 bg-red-200'
+  },
+]
+const getStatusColor = (status) => {
+  const foundStatus = statuses.find((s) => s.status === status)
+  return foundStatus ? foundStatus.color : 'bg-slate-800 text-slate-200'
+}
+
+
+const dataRecap = ref([])
 
 const getWorkspace = async () => {
     isLoading.value = !isLoading.value
@@ -152,6 +218,7 @@ const getWorkspace = async () => {
         shop.dataStore?.id ?? user.dataStoreEmployee?.id
     )
         .then((response) => {
+            console.log(response);
             workspace.tasks = []
             const { data } = response
             data.forEach((val) => {
@@ -201,24 +268,40 @@ const getStore = async () => {
 
 const getStoreAsEmployee = async () => {
     await user.getStoreAsEmployee(user.userData.email)
-        // .then(response => console.log(response))
-        // .catch(error => console.log(error))
+    // .then(response => console.log(response))
+    // .catch(error => console.log(error))
+}
+
+const getFinance = async () => {
+    await recap.recapFinance(shop.dataStore?.id ? shop.dataStore.id : user.dataStoreEmployee.id)
+        .then(response => {
+            console.log(response)
+            dataRecap.value = response.data
+            calculateTotals()
+            console.log(dataRecap.value);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+        .finally(() => { })
 }
 
 
 onMounted(async () => {
-    await getWorkspace()
 
     if (user.userData.member != null) {
         user.isEmployee = true
     }
 
     if (user.isEmployee) {
-        return await getStoreAsEmployee()
+        await getStoreAsEmployee()
     } else {
-        return await getStore()
+        await getStore()
     }
+    await getWorkspace()
+    await getFinance()
 
+    calculateTaskStatus()
 })
 
 

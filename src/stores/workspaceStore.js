@@ -71,6 +71,13 @@ export const workspaceStore = defineStore('workspace',{
                 throw error
             })
         },
+        async getTask(id){
+            return await api.get(`space/task/${id}`)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
+        }
     },
     getters : {
         getDataWorkspace : (state)=> state.workspaceData,
