@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/UMKMCONNECT_FE/', // Pastikan base berada di sini
+  base: '/umkmconnect_fe/', // Pastikan base berada di sini
   plugins: [
     vue(),
   ],
