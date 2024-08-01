@@ -218,7 +218,6 @@ const getWorkspace = async () => {
         shop.dataStore?.id ?? user.dataStoreEmployee?.id
     )
         .then((response) => {
-            console.log(response);
             workspace.tasks = []
             const { data } = response
             data.forEach((val) => {
@@ -275,10 +274,8 @@ const getStoreAsEmployee = async () => {
 const getFinance = async () => {
     await recap.recapFinance(shop.dataStore?.id ? shop.dataStore.id : user.dataStoreEmployee.id)
         .then(response => {
-            console.log(response)
             dataRecap.value = response.data
             calculateTotals()
-            console.log(dataRecap.value);
         })
         .catch(error => {
             console.log(error);
