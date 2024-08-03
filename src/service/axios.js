@@ -1,8 +1,9 @@
 import axios from "axios"
 import { userStore } from "@/stores/userStore";
 const VUE_BASE_URL = import.meta.env.VITE_APP_BASE_URL
+const VUE_BASE_URL_PROD  = import.meta.env.VITE_APP_BASE_URL_PROD
 const api = axios.create({
-  baseURL: VUE_BASE_URL,
+  baseURL: import.meta.env.NODE_ENV ?  VUE_BASE_URL_PROD : VUE_BASE_URL,
 });
 
 api.interceptors.request.use(
