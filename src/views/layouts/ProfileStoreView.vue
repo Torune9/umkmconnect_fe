@@ -6,6 +6,7 @@
             <!-- confirm button -->
             <popupConfirm :isConfirm="isShowConfirm" @close="closeConfirm" :id="productId" :productData="productData"
                 @sendMessage="acceptMessage" />
+            <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
             <div v-if="userStore().isShowStore || store.isShowStore">
                 <!-- description store -->
                 <section
@@ -56,9 +57,11 @@
                     <!-- card wrapper -->
                     <div class="w-60 h-90 overflow-hidden rounded relative  shadow-md"
                         v-for="product, index of store.dataProducts" :key="index">
-                        <!-- button close -->
+                        <div @click="detailProduct(product)"  class="absolute cursor-pointer z-20 w-full h-full">
+                        </div>
+                        <!-- button confirm -->
                         <button @click="showConfirm(product.id)" type="button"
-                            class="absolute top-2 right-2 text-red-600 hover:text-red-500 transition-colors duration-200">
+                            class="absolute top-2 right-2 text-red-600 hover:text-red-500 transition-colors duration-200 z-30">
                             <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="xl" />
                         </button>
                         <div class="h-40 overflow-hidden ">
@@ -83,11 +86,11 @@
                                 <h4 class="font-semibold overflow-auto w-full">
                                     {{ formatterRupiah.formatPriceToIDR(product.price) }}</h4>
                             </div>
-                            <p class="text-[12px] text-justify">
-                                {{ product.information }}
+                            <p class="text-[12px] text-justify cursor-pointer">
+                                {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
                             </p>
                             <button type="button" @click="updateProduct(product)"
-                                class=" bg-fuchsia-700 w-40 h-8 rounded text-white hover:bg-fuchsia-500 transition-colors duration-300">
+                                class=" bg-fuchsia-700 w-40 h-8 rounded text-white hover:bg-fuchsia-500 transition-colors duration-300 z-30">
                                 edit
                             </button>
                         </div>
@@ -115,6 +118,7 @@
 
 <script setup>
 import productModal from '@/components/modal/productModal.vue';
+import detailProductModal from '@/components/modal/detailProduct.vue';
 import popupConfirm from '@/components/util/popupConfirm.vue';
 import MainLayout from '@/layout/mainLayout.vue';
 import { storeShop } from '@/stores/storeShop';
@@ -128,11 +132,13 @@ const URL = import.meta.env.VITE_APP_BASE_URL
 const store = storeShop()
 
 const productData = ref(null)
+const dataProduct = ref([])
 
 const showModal = ref(false),
     loading = ref(false),
     isShowConfirm = ref(false),
-    isCreate = ref(false)
+    isCreate = ref(false),
+    isDetail = ref(false)
 const productId = ref(),
     infoMessage = ref(''),
     infoType = ref('')
@@ -178,6 +184,15 @@ const showConfirm = (id) => {
 const closeConfirm = async (data) => {
     isShowConfirm.value = !data
     await getProductsStore()
+}
+
+const detailProduct = (data) => {
+    isDetail.value = !isDetail.value
+    dataProduct.value = data
+}
+const close = (data)=>{
+    isDetail.value = data
+    dataProduct.value = []
 }
 
 onMounted(async () => {

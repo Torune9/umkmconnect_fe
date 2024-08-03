@@ -16,6 +16,13 @@
                     <input v-model="payload.name" required type="text" id="name" name="name"
                         class="outline-none rounded text-sm" placeholder="store name..." />
                 </div>
+                <div class="w-full flex flex-col">
+                    <label for="phoneNumber">
+                        Phone Number
+                    </label>
+                    <input id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
+                    class="outline-none rounded text-sm"/>
+                </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="img">image</label>
                     <input required @change="setProfileImg" ref="files" type="file" id="img" name="img"
@@ -92,7 +99,8 @@ const setProfileImg = () => {
 const payload = reactive({
     name: '',
     description: '',
-    userId: usrStore.userData.id
+    userId: usrStore.userData.id,
+    noHp: ''
 })
 
 const code = ref('')
@@ -109,10 +117,11 @@ const createOrJoin = async () => {
     loading.value = !loading.value
     if (props.isShowCreate) {
         const formData = new FormData()
-        formData.append('name',payload.name)
-        formData.append('description',payload.description)
-        formData.append('userId',payload.userId),
-        formData.append('image',fileUpload.value[0])
+        formData.append('name', payload.name)
+        formData.append('description', payload.description)
+        formData.append('userId', payload.userId)
+        formData.append('noHp', payload.noHp)
+        formData.append('image', fileUpload.value[0])
         await shopStore
             .createStore(formData)
             .then((response) => {

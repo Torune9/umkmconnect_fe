@@ -1,4 +1,5 @@
 <template>
+    <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
    <NavBarMain v-if="user.isLogin" />
    <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading"/>
@@ -20,39 +21,39 @@
                     </p>
                 </div>
             </div>
-
         </div>
         <!-- list product -->
-        <div  v-if="store.dataAllStore[0].products !== undefined && Object.entries(store.dataAllStore[0].products).length !== 0"  class="w-full h-full pl-28 pr-28 p-2 flex flex-wrap gap-2 bg-gradient-to-b from-indigo-900 to-black rounded-t-md ">
-            <div class="w-full h-full flex flex-wrap gap-2 justify-center items-center">
-                <div class="border w-60 h-90 overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white "
-                    v-for="product, i of store.dataAllStore[0].products" :key="i">
-                    <div class="h-40 overflow-hidden flex justify-center items-center ">
-                        <picture>
-                            <img :src="`${URL}source/image/${product.img}`" alt="">
-                        </picture>
-                    </div>
-                    <!-- products information -->
-                    <div class="p-2 text-sm w-full flex flex-col gap-y-3">
-                        <div class="flex flex-row h-10 w-full items-center">
-                            <div class="flex flex-col w-full">
-                                <h3 class="font-bold w-full">{{ product.name }}</h3>
-                                <h1>Stock: {{ product.stock }}</h1>
-                            </div>
-                            <h4 class="font-semibold overflow-auto w-full">
-                                {{ formatterRupiah.formatPriceToIDR(product.price) }}
-                            </h4>
+        <div  v-if="store.dataAllStore[0].products !== undefined && Object.entries(store.dataAllStore[0].products).length !== 0"  class="w-full h-full pl-28 pr-28 p-2 flex flex-wrap justify-center items-center  gap-2 bg-gradient-to-b from-indigo-900 to-black rounded-t-md border max-md:p-2 ">
+            <div class="border h-90 w-60 max-sm:w-full overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white "
+                v-for="product, i of store.dataAllStore[0].products" :key="i">
+                <div @click="detailProduct(product)"  class="absolute cursor-pointer z-20 w-full h-full">
+                </div>
+                <div class="h-40 overflow-hidden flex justify-center items-center ">
+                    <picture>
+                        <img :src="`${URL}source/image/${product.img}`" alt="">
+                    </picture>
+                </div>
+                <!-- products information -->
+                <div class="p-2 text-sm w-full flex flex-col gap-y-3">
+                    <div class="flex flex-row h-10 w-full items-center">
+                        <div class="flex flex-col w-full">
+                            <h3 class="font-bold w-full">{{ product.name }}</h3>
+                            <h1>Stock: {{ product.stock }}</h1>
                         </div>
-                        <p class="text-[12px] text-justify">
-                            {{ product.description }}
-                        </p>
-                        <button
-                            class=" bg-green-700 w-40 h-8 rounded text-white hover:bg-green-500 transition-colors duration-300">
-                            order
-                        </button>
+                        <h4 class="font-semibold overflow-auto w-full">
+                            {{ formatterRupiah.formatPriceToIDR(product.price) }}
+                        </h4>
                     </div>
+                    <p class="text-[12px] text-justify">
+                        {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
+                    </p>
+                    <button type="button"  @click="orderViaWhatsApp(product)"
+                        class=" bg-green-700 w-40 h-8 rounded text-white hover:bg-green-500 transition-colors duration-300 z-30">
+                        order
+                    </button>
                 </div>
             </div>
+            
         </div>
         <div v-else class="w-full h-full text-center">
             <h1 class="text-3xl text-black/50 font-bold max-sm:text-lg ">This shop doesn't have any products yet</h1>
@@ -64,6 +65,7 @@
 <script setup>
 import NavBarMain from '@/components/navigations/navBarMain.vue';
 import NavBarHome from '@/components/navigations/navBarHome.vue';
+import detailProductModal from '@/components/modal/detailProduct.vue';
 import { storeShop } from '@/stores/storeShop';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -76,7 +78,9 @@ const route = useRoute()
 const URL = import.meta.env.VITE_APP_BASE_URL;
 const user = userStore()
 
-const isLoading = ref(false)
+const isLoading = ref(false),
+isDetail = ref(false)
+const dataProduct = ref([])
 
 const getDetailStore = async () => {
     isLoading.value = !isLoading.value
@@ -91,6 +95,34 @@ const getDetailStore = async () => {
             isLoading.value = !isLoading.value
         })
 }
+const detailProduct = (data) => {
+    isDetail.value = !isDetail.value
+    dataProduct.value = data
+}
+const close = (data)=>{
+    isDetail.value = data
+    dataProduct.value = []
+}
+
+const orderViaWhatsApp = (product) => {
+    let phoneNumber = store.dataAllStore[0].phoneNumber;
+
+    // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
+    if (phoneNumber.startsWith('+')) {
+        phoneNumber = phoneNumber.substring(1);
+    }
+
+    // Tambahkan kode negara jika belum ada
+    if (!phoneNumber.startsWith('62')) {
+        phoneNumber = '62' + phoneNumber;
+    }
+
+    const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
+    const whatsappURL = `https://wa.me/${'6282219882771'}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+};
+
+
 
 onMounted(async () => {
     await getDetailStore()
