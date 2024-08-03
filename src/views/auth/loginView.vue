@@ -115,7 +115,7 @@ const login = async () => {
         .catch(error => {
             console.log(error);
             const {data:{message}} = error.response
-            inform.errors.message = 'login failed'
+            inform.errors.message = error.response ? message : 'login failed'
             inform.type = 'danger'
             inform.success.message = null
         })
