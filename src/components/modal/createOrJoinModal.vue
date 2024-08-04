@@ -20,7 +20,7 @@
                     <label for="phoneNumber">
                         Phone Number
                     </label>
-                    <input id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
+                    <input required id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
                     class="outline-none rounded text-sm"/>
                 </div>
                 <div class="flex flex-col w-full gap-2">
@@ -120,7 +120,7 @@ const createOrJoin = async () => {
         formData.append('name', payload.name)
         formData.append('description', payload.description)
         formData.append('userId', payload.userId)
-        formData.append('noHp', payload.noHp)
+        formData.append('phoneNumber', payload.noHp)
         formData.append('image', fileUpload.value[0])
         await shopStore
             .createStore(formData)
