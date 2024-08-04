@@ -14,26 +14,26 @@
                 <div class="flex flex-col w-full">
                     <label for="name">Name</label>
                     <input v-model="payload.name" required type="text" id="name" name="name"
-                        class="outline-none rounded text-sm" placeholder="store name..." />
+                        class="outline-none rounded text-sm max-sm:w-60" placeholder="store name..." />
                 </div>
                 <div class="w-full flex flex-col">
                     <label for="phoneNumber">
                         Phone Number
                     </label>
                     <input required id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
-                    class="outline-none rounded text-sm"/>
+                    class="outline-none rounded text-sm max-sm:w-60"/>
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="img">image</label>
                     <input  @change="setProfileImg" ref="files" type="file" id="img" name="img"
-                        class="outline-none rounded text-sm border" />
+                        class="outline-none rounded text-sm border max-sm:w-60" />
                     <div class="h-52" v-if="fileUpload.length > 0">
                         <img :src="src" class="object-cover h-full w-full border text-xs" />
                     </div>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col w-full">
                     <label for="description">Description</label>
-                    <textarea v-model="payload.description" required name="description" id="description" cols="40"
+                    <textarea v-model="payload.description" required name="description" id="description" cols="30"
                         rows="5" class="outline-none rounded text-sm" placeholder="description here...">
           </textarea>
                     <small v-if="infoDesc" class="text-yellow-600">{{ infoDesc }}</small>

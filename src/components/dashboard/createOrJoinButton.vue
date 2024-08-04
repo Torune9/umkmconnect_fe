@@ -1,6 +1,6 @@
 <template>
     <section v-if="closePage" class="flex flex-col p-8 gap-10 justify-center items-center h-screen">
-        <h1 class="text-3xl text-black/30 font-black font-inter">
+        <h1 class="text-3xl text-black/30 font-black font-inter text-center ">
             You don't have a store yet
         </h1>
         <div class="flex flex-row gap-x-4 justify-center items-center">
