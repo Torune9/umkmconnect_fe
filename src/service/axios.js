@@ -2,7 +2,7 @@ import axios from "axios";
 import { userStore } from "@/stores/userStore";
 
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? import.meta.env.VITE_APP_BASE_URL_PROD : import.meta.env.VITE_APP_BASE_URL,
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_APP_BASE_URL_PROD : import.meta.env.VITE_APP_BASE_URL
 });
 
 api.interceptors.request.use(

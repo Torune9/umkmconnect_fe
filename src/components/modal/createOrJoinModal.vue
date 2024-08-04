@@ -2,7 +2,7 @@
     <div v-if="isShowModal"
         class="w-screen h-screen fixed z-50 bg-black/20 flex justify-center items-center font-poppins">
         <form @submit.prevent="createOrJoin" enctype="multipart/form-data"
-            class="border flex flex-col items-center p-4 rounded gap-2 bg-white overflow-x-hidden overflow-y-auto max-h-screen">
+            class="border flex flex-col items-center justify-center p-4 rounded gap-2 bg-white overflow-x-hidden overflow-y-auto max-h-screen">
             <div class="flex flex-row justify-between w-full">
                 <h1 class="text-2xl font-semibold">{{ isShowCreate ? 'Create' : 'Join' }} Store</h1>
                 <button type="button" @click="closeModal"
