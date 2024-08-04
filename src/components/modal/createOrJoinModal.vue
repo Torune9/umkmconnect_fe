@@ -25,7 +25,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="img">image</label>
-                    <input required @change="setProfileImg" ref="files" type="file" id="img" name="img"
+                    <input  @change="setProfileImg" ref="files" type="file" id="img" name="img"
                         class="outline-none rounded text-sm border" />
                     <div class="h-52" v-if="fileUpload.length > 0">
                         <img :src="src" class="object-cover h-full w-full border text-xs" />
