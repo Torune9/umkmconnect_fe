@@ -1,69 +1,68 @@
 <template>
     <div v-if="isShowModal"
-        class="w-screen h-screen fixed z-50 bg-black/20 flex justify-center items-center font-poppins">
+        class="w-full h-full  fixed z-50 bg-black/20 flex justify-center items-center font-poppins">
         <form @submit.prevent="createOrJoin" enctype="multipart/form-data"
-            class="border flex flex-col items-center justify-center p-4 rounded gap-2 bg-white overflow-x-hidden overflow-y-auto max-h-screen">
+            class="border flex flex-col items-center justify-center p-4 rounded gap-4 bg-white overflow-x-hidden overflow-y-auto max-h-screen max-w sm:max-w-md lg:max-w-lg">
             <div class="flex flex-row justify-between w-full">
-                <h1 class="text-2xl font-semibold">{{ isShowCreate ? 'Create' : 'Join' }} Store</h1>
+                <h1 class="text-xl sm:text-2xl font-semibold">{{ isShowCreate ? 'Create' : 'Join' }} Store</h1>
                 <button type="button" @click="closeModal"
                     class="text-red-700 hover:text-red-500 transition-colors duration-300">
-                    <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="xl" />
+                    <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="lg" />
                 </button>
             </div>
-            <div v-if="isShowCreate" class="flex flex-col items-center rounded gap-2">
+            <div v-if="isShowCreate" class="flex flex-col items-center rounded gap-4 w-full">
                 <div class="flex flex-col w-full">
-                    <label for="name">Name</label>
+                    <label for="name" class="text-sm">Name</label>
                     <input v-model="payload.name" required type="text" id="name" name="name"
-                        class="outline-none rounded text-sm max-sm:w-60" placeholder="store name..." />
+                        class="outline-none rounded text-sm w-full" placeholder="store name..." />
                 </div>
-                <div class="w-full flex flex-col">
-                    <label for="phoneNumber">
-                        Phone Number
-                    </label>
+                <div class="flex flex-col w-full">
+                    <label for="phoneNumber" class="text-sm">Phone Number</label>
                     <input required id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
-                    class="outline-none rounded text-sm max-sm:w-60"/>
+                    class="outline-none rounded text-sm w-full"/>
                 </div>
                 <div class="flex flex-col w-full gap-2">
-                    <label for="img">image</label>
-                    <input  @change="setProfileImg" ref="files" type="file" id="img" name="img"
-                        class="outline-none rounded text-sm border max-sm:w-60" />
+                    <label for="img" class="text-sm">Image</label>
+                    <input @change="setProfileImg" ref="files" type="file" id="img" name="img"
+                        class="outline-none rounded text-sm border w-full" />
                     <div class="h-52" v-if="fileUpload.length > 0">
                         <img :src="src" class="object-cover h-full w-full border text-xs" />
                     </div>
                 </div>
                 <div class="flex flex-col w-full">
-                    <label for="description">Description</label>
+                    <label for="description" class="text-sm">Description</label>
                     <textarea v-model="payload.description" required name="description" id="description" cols="30"
-                        rows="5" class="outline-none rounded text-sm" placeholder="description here...">
-          </textarea>
+                        rows="5" class="outline-none rounded text-sm w-full" placeholder="description here...">
+                    </textarea>
                     <small v-if="infoDesc" class="text-yellow-600">{{ infoDesc }}</small>
                 </div>
             </div>
-            <div v-else class="flex flex-col">
-                <label for="join">code</label>
+            <div v-else class="flex flex-col w-full">
+                <label for="join" class="text-sm">Code</label>
                 <input v-model="code" required type="text" name="store" id="store" placeholder="add code here..."
-                    class="rounded outline-none text-sm" />
+                    class="rounded outline-none text-sm w-full" />
             </div>
-            <div class="text-right w-full">
+            <div class="text-right w-full mt-4">
                 <button :disabled="isDisable" :class="[
-                    'text-white w-40 h-10 rounded transition-colors duration-300 font-semibold',
+                    'text-white w-full sm:w-40 h-10 rounded transition-colors duration-300 font-semibold',
                     isShowCreate
                         ? isDisable
-                            ? 'bg-black/70 outline outline-slate-950 hoveR:bg-slate-600'
+                            ? 'bg-black/70 outline outline-slate-950 hover:bg-slate-600'
                             : 'bg-blue-700 hover:bg-blue-500'
                         : 'bg-red-800 hover:bg-red-600'
                 ]">
                     <p v-if="!loading">
-                        {{ isShowCreate ? 'create' : 'join' }}
+                        {{ isShowCreate ? 'Create' : 'Join' }}
                     </p>
                     <p v-else class="animate-spin">
-                        <font-awesome-icon icon="fa-solid fa-spinner" size="xl" />
+                        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" />
                     </p>
                 </button>
             </div>
         </form>
     </div>
 </template>
+
 <script setup>
 import { userStore } from '@/stores/userStore'
 import { storeShop } from '@/stores/storeShop'
