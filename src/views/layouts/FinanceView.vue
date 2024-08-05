@@ -4,7 +4,7 @@
             <section class="p-8 mt-10 relative font-poppins">
                 <recapModal :is-recap="isRecap" :is-finance="isFinance" @close="closeModalRecap"
                     @sendInfo="acceptInfo" />
-                    <editRecapModal :is-show-update="showUpdate" @close="closeModalUpdate" :is-update-fin="isUpdateFin" :data-fin="dataFin" />
+                    <editRecapModal :is-show-update="showUpdate" @close="closeModalUpdate" @sendInfo="acceptInfo" :is-update-fin="isUpdateFin" :data-fin="dataFin" />
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>

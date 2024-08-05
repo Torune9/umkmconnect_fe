@@ -20,7 +20,8 @@
                 </div>
                 <div class="flex flex-col">
                     <label for="information">Information</label>
-                    <textarea class="outline-none rounded" v-model="payloadRecap.information" name="information" id="information" cols="10" rows="5"></textarea>
+                    <textarea class="outline-none rounded" v-model="payloadRecap.information" name="information"
+                        id="information" cols="10" rows="5"></textarea>
                 </div>
             </div>
             <div class="flex flex-col" v-if="isUpdateInv">
@@ -40,7 +41,8 @@
                 </div>
                 <div class="flex flex-col">
                     <label for="desc">Description</label>
-                    <textarea class="outline-none rounded" v-model="payloadInvent.description" name="desc" id="desc" cols="10" rows="5"></textarea>
+                    <textarea class="outline-none rounded" v-model="payloadInvent.description" name="desc" id="desc"
+                        cols="10" rows="5"></textarea>
                 </div>
 
             </div>
@@ -87,7 +89,7 @@ const props = defineProps({
 
 })
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'sendInfo'])
 
 const close = () => {
     emits('close', false)
@@ -96,7 +98,7 @@ const close = () => {
 const payloadRecap = reactive({
     income: '',
     exp: '',
-    information : ''
+    information: ''
 })
 
 const payloadInvent = reactive({
@@ -110,6 +112,8 @@ const recap = recapStore()
 const invent = inventStore()
 const store = storeShop()
 
+const messages = ref('')
+
 const isLoading = ref(false)
 
 const updateInvOrFin = async () => {
@@ -122,6 +126,22 @@ const updateInvOrFin = async () => {
             description: payloadInvent.description
         }
         return await invent.updateInventory(store.dataStore.id, payload)
+            .then(response => {
+                console.log(response);
+                messages.value = response.message
+                emits('sendInfo', {
+                    message: messages.value,
+                    type: 'success'
+                })
+            })
+            .catch(error => {
+                console.log(error);
+                emits('sendInfo', {
+                    message: messages.value,
+                    type: 'danger'
+                })
+
+            })
             .finally(() => {
                 isLoading.value = !isLoading.value
                 close()
@@ -130,13 +150,29 @@ const updateInvOrFin = async () => {
 
     if (props.isUpdateFin) {
         isLoading.value = !isLoading.value
-         const payload = {
-            income : formatterRupiah.convertToNumber(payloadRecap.income),
-            exp : formatterRupiah.convertToNumber(payloadRecap.exp),
-            information : payloadRecap.information
+        const payload = {
+            income: formatterRupiah.convertToNumber(payloadRecap.income),
+            exp: formatterRupiah.convertToNumber(payloadRecap.exp),
+            information: payloadRecap.information
         }
-        return await recap.updateRecapFinance(store.dataStore.id,payload)
-            .finally(() => { 
+        return await recap.updateRecapFinance(store.dataStore.id, payload)
+            .then(response => {
+                messages.value = response.message
+                emits('sendInfo', {
+                    message: messages.value,
+                    type: 'success'
+                })
+
+            })
+            .catch(error => {
+                console.log(error);
+                emits('sendInfo', {
+                    message: messages.value,
+                    type: 'danger'
+                })
+
+            })
+            .finally(() => {
                 isLoading.value = !isLoading.value
                 close()
             })
