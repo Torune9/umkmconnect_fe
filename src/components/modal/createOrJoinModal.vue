@@ -108,7 +108,8 @@ const emits = defineEmits(['close'])
 const closeModal = () => {
     payload.description = ''
     payload.name = ''
-    payload.userId = ''
+    payload.userId = '',
+    payload.noHp = ''
     emits('close', false)
 }
 

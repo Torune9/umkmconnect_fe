@@ -113,11 +113,14 @@ const register = async () => {
         })
     })
     .catch(error => {
+        console.log(error);
+        
         if (error.response) {
-            errors.message = 'Email has been used,try another username'
+            errors.message = error.response.data.message
+        }else{
+            errors.message = 'register failed'
         }
         errors.isError = true
-        errors.message = 'register failed'
 
     })
     .finally(()=>loading.value = !loading.value)
