@@ -24,8 +24,11 @@
                         </small>
                     </div>
                     <div class="w-full  h-full flex justify-center items-center overflow-hidden rounded-md">
-                        <img :src="`${URL}source/image/${store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img}`"
+                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img" :src="`${URL}source/image/${store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img}`"
                             alt="image store" class="h-full w-full object-cover">
+                            <div v-else class=" text-9xl bg-slate-200 w-full h-full flex justify-center items-center text-black/40">
+                        <font-awesome-icon icon="fa-solid fa-image" />
+                    </div>
                     </div>
                 </section>
                 <!-- button create -->

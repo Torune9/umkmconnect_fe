@@ -14,8 +14,11 @@
       <router-link :to="`${url}${store.code}`">
         <div class="flex flex-row h-full  gap-2 overflow-hidden ">
           <!-- image store -->
-          <div class="h-20 w-24 rounded-md overflow-hidden flex justify-center items-center border-2 border-slate-950 hover:scale-75 transition-transform duration-200  ">
-            <img :src="`${URL}source/image/${store.img}`" alt="" class="h-full w-full object-cover">
+          <div class="h-20 w-24 rounded-md overflow-hidden flex justify-center items-center shadow-md border border-slate-400 hover:scale-75 transition-transform duration-200  ">
+            <img v-if="store.img"  :src="`${URL}source/image/${store.img}`" alt="" class="h-full w-full object-cover">
+            <div v-else class="w-full h-full bg-slate-100 flex justify-center items-center text-4xl text-black/50">
+              <font-awesome-icon icon="fa-solid fa-store" />
+            </div>
           </div>
 
           <div class="w-full h-20  cursor-pointer hover:underline text-[12px] text-zinc-100 text-justify rounded-md p-2 flex items-center bg-slate-950 ">
