@@ -118,7 +118,7 @@ const orderViaWhatsApp = (product) => {
     }
 
     const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
-    const whatsappURL = `https://wa.me/${'6282219882771'}?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');
 };
 
