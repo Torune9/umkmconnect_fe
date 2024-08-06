@@ -13,8 +13,8 @@
             <div class="w-full overflow-hidden">
                 <img v-if="dataProduct.img" :src="dataProduct.img" alt="image product"
                     class="w-full h-full object-cover">
-                <div v-else class="w-full h-full bg-slate-100 flex justify-center items-center text-4xl text-black/50">
-                    <font-awesome-icon icon="fa-solid fa-store" />
+                <div v-else class="w-full h-20 bg-slate-100 flex justify-center items-center text-4xl text-black/50">
+                    <font-awesome-icon icon="fa-solid fa-image" />
                 </div>
             </div>
             <div class="flex flex-col gap-2 h-full overflow-hidden">
