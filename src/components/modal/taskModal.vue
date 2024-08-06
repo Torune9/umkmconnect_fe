@@ -1,6 +1,6 @@
 <template>
     <Transition name="modals">
-        <div v-if="isShow" class="fixed flex h-screen w-screen justify-center items-center z-50">
+        <div v-if="isShow" class="fixed flex h-full w-full justify-center items-center z-50 bg-black/40  ">
             <form @submit.prevent="createWorkOrTask" class="flex flex-col justify-center border gap-2 p-4 relative bg-white shadow-md">
                 <h1 class="text-2xl font-semibold">
                     {{ isWorkspace ? 'Create  Workspace' : 'Task Create' }}
