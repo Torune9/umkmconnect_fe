@@ -1,14 +1,14 @@
 <template>
+    <recapModal :is-recap="isRecap" :is-finance="isFinance" @close="closeModalRecap" @sendInfo="acceptInfo" />
+    <editRecapModal :is-show-update="showUpdate" @close="closeModalUpdate" @sendInfo="acceptInfo"
+        :is-update-fin="isUpdateFin" :data-fin="dataFin" />
     <MainLayout>
         <template v-slot:body>
             <section class="p-8 mt-10 relative font-poppins">
-                <recapModal :is-recap="isRecap" :is-finance="isFinance" @close="closeModalRecap"
-                    @sendInfo="acceptInfo" />
-                    <editRecapModal :is-show-update="showUpdate" @close="closeModalUpdate" @sendInfo="acceptInfo" :is-update-fin="isUpdateFin" :data-fin="dataFin" />
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>
-                    <button v-if="!userStore().isEmployee"  @click="showModalRecap" type="button"
+                    <button v-if="!userStore().isEmployee" @click="showModalRecap" type="button"
                         class="bg-green-600 p-2 font-poppins text-sm rounded font-bold w-28 text-white hover:bg-green-500 transition-all duration-300">
                         Recap
                     </button>
@@ -18,13 +18,14 @@
                                 info.type == 'success' ? 'bg-green-200 text-green-800 border-green-900' : 'bg-red-300 text-red-800 border-red-900'
                             ]">
                                 <small>{{ info.message }}</small>
-                                <button @click="info.message=''" type="button" class="absolute -right-1 -top-2 text-red-950">
-                                    <font-awesome-icon icon="fa-solid fa-circle-xmark"/>
+                                <button @click="info.message = ''" type="button"
+                                    class="absolute -right-1 -top-2 text-red-950">
+                                    <font-awesome-icon icon="fa-solid fa-circle-xmark" />
                                 </button>
                             </h1>
                         </div>
-                        <EasyDataTable :headers="headers" :items="items" :loading="isLoading" :rows-per-page="7" :rows-items="[4,7]"
-                            table-class-name="customize-table"  alternating>
+                        <EasyDataTable :headers="headers" :items="items" :loading="isLoading" :rows-per-page="7"
+                            :rows-items="[4, 7]" table-class-name="customize-table" alternating>
                             <template #item-createdAt="{ createdAt }">
                                 {{ formatDate(createdAt) }}
                             </template>
@@ -45,7 +46,8 @@
                                     : 'information not available' }}
                             </template>
                             <template #item-action="item">
-                                <button @click="showUpdateModal(item)"  type="button" class="rounded-md bg-blue-600 hover:bg-slate-800 hover:text-white p-2 text-white">
+                                <button @click="showUpdateModal(item)" type="button"
+                                    class="rounded-md bg-blue-600 hover:bg-slate-800 hover:text-white p-2 text-white">
                                     <font-awesome-icon icon="fa-solid fa-pen-to-square" size="lg" />
                                 </button>
                             </template>
@@ -131,7 +133,7 @@ const closeModalRecap = async (data) => {
     await getRecapFinance()
 }
 
-const showUpdateModal = (data)=> {
+const showUpdateModal = (data) => {
     showUpdate.value = !showUpdate.value
     isUpdateFin.value = !isUpdateFin.value
     dataFin.value = data

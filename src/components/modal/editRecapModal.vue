@@ -1,63 +1,65 @@
 <template>
-    <section v-if="isShowUpdate" class="absolute p-4 top-10 right-1/2 z-20">
-        <form @submit.prevent="updateInvOrFin" class=" p-4 flex flex-col gap-3 w-80 bg-white rounded-md shadow-lg">
-            <div class="flex flex-row">
-                <h1 class="p-2 border-b font-bold w-full">
-                    Update {{ isUpdateFin ? 'Finance' : '' || isUpdateInv ? 'Inventory' : '' }}
-                </h1>
-                <button type="button" @click="close" class="hover:text-red-600">
-                    <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="lg" />
-                </button>
-            </div>
-            <div class="flex flex-col gap-4" v-if="isUpdateFin">
-                <div class="flex flex-col">
-                    <label for="inc">Income</label>
-                    <input v-model="payloadRecap.income" class="rounded outline-none" type="text" id="inc" name="inc">
+    <Transition name="recap">
+        <section v-if="isShowUpdate" class="fixed z-50 bg-black/40 h-full w-full flex justify-center items-center">
+            <form @submit.prevent="updateInvOrFin" class=" p-4 flex flex-col gap-3 w-80 bg-white rounded-md shadow-lg">
+                <div class="flex flex-row">
+                    <h1 class="p-2 border-b font-bold w-full">
+                        Update {{ isUpdateFin ? 'Finance' : '' || isUpdateInv ? 'Inventory' : '' }}
+                    </h1>
+                    <button type="button" @click="close" class="hover:text-red-600">
+                        <font-awesome-icon icon="fa-solid fa-rectangle-xmark" size="lg" />
+                    </button>
                 </div>
-                <div class="flex flex-col">
-                    <label for="exp">Expenditure</label>
-                    <input v-model="payloadRecap.exp" class="rounded outline-none" type="text" id="exp" name="exp">
+                <div class="flex flex-col gap-4" v-if="isUpdateFin">
+                    <div class="flex flex-col">
+                        <label for="inc">Income</label>
+                        <input v-model="payloadRecap.income" class="rounded outline-none" type="text" id="inc" name="inc">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="exp">Expenditure</label>
+                        <input v-model="payloadRecap.exp" class="rounded outline-none" type="text" id="exp" name="exp">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="information">Information</label>
+                        <textarea class="outline-none rounded" v-model="payloadRecap.information" name="information"
+                            id="information" cols="10" rows="5"></textarea>
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <label for="information">Information</label>
-                    <textarea class="outline-none rounded" v-model="payloadRecap.information" name="information"
-                        id="information" cols="10" rows="5"></textarea>
+                <div class="flex flex-col" v-if="isUpdateInv">
+                    <div class="flex flex-col">
+                        <label for="name">Name</label>
+                        <input v-model="payloadInvent.name" class="rounded outline-none" type="text" name="name" id="name">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="price">Price</label>
+                        <input v-model="payloadInvent.price" class="rounded outline-none" type="text" name="price"
+                            id="price">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="stock">Stock</label>
+                        <input v-model="payloadInvent.stock" class="rounded outline-none" type="number" name="stock"
+                            id="stock">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="desc">Description</label>
+                        <textarea class="outline-none rounded" v-model="payloadInvent.description" name="desc" id="desc"
+                            cols="10" rows="5"></textarea>
+                    </div>
+    
                 </div>
-            </div>
-            <div class="flex flex-col" v-if="isUpdateInv">
-                <div class="flex flex-col">
-                    <label for="name">Name</label>
-                    <input v-model="payloadInvent.name" class="rounded outline-none" type="text" name="name" id="name">
+                <div class="w-full text-right">
+                    <button class="w-40 bg-cyan-500 h-10 rounded text-white font-semibold hover:bg-cyan-400">
+                        <p v-if="!isLoading">
+                            Update
+                        </p>
+                        <p v-else class="animate-spin">
+                            <font-awesome-icon icon="fa-solid fa-spinner" size="lg" />
+                        </p>
+                    </button>
                 </div>
-                <div class="flex flex-col">
-                    <label for="price">Price</label>
-                    <input v-model="payloadInvent.price" class="rounded outline-none" type="text" name="price"
-                        id="price">
-                </div>
-                <div class="flex flex-col">
-                    <label for="stock">Stock</label>
-                    <input v-model="payloadInvent.stock" class="rounded outline-none" type="number" name="stock"
-                        id="stock">
-                </div>
-                <div class="flex flex-col">
-                    <label for="desc">Description</label>
-                    <textarea class="outline-none rounded" v-model="payloadInvent.description" name="desc" id="desc"
-                        cols="10" rows="5"></textarea>
-                </div>
-
-            </div>
-            <div class="w-full text-right">
-                <button class="w-40 bg-cyan-500 h-10 rounded text-white font-semibold hover:bg-cyan-400">
-                    <p v-if="!isLoading">
-                        Update
-                    </p>
-                    <p v-else class="animate-spin">
-                        <font-awesome-icon icon="fa-solid fa-spinner" size="lg" />
-                    </p>
-                </button>
-            </div>
-        </form>
-    </section>
+            </form>
+        </section>
+    </Transition>
 </template>
 
 <script setup>

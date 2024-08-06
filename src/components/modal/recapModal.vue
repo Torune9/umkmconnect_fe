@@ -1,9 +1,9 @@
 <template>
     <Transition name="recap">
-        <section v-if="isRecap" class="border absolute p-4 top-10 right-1/2 z-20 bg-white rounded-md">
-            <form @submit.prevent="recapFinanceOrInvent" class="flex flex-col gap-y-4 relative">
+        <section v-if="isRecap" class="z-50 fixed w-full h-full bg-black/40 flex justify-center items-center">
+            <form @submit.prevent="recapFinanceOrInvent" class="flex flex-col gap-y-4 bg-white rounded-md justify-center items-center w-80 p-4">
 
-                <div class="flex flex-row border-b">
+                <div class="flex flex-row border-b w-full justify-between">
                     <h1 class="p-2 w-full font-semibold">
                         {{ isFinance ? 'Recap Finance' : '' || isInvent ? 'Recap Inventory' : '' }}
                     </h1>
@@ -13,28 +13,28 @@
                     </button>
                 </div>
 
-                <div v-if="isFinance">
+                <div v-if="isFinance" class="w-full">
                     <div class="flex flex-col">
                         <label for="inc">Income</label>
                         <input v-model="payloadFinance.income" type="text" name="inc" id="inc"
-                            class="rounded outline-none w-60" placeholder="0" />
+                            class="rounded outline-none w-full" placeholder="0" />
                     </div>
                     <div class="flex flex-col">
                         <label for="exp">Expenditure</label>
-                        <input v-model="payloadFinance.exp" type="text" name="exp" id="exp" class="rounded outline-none w-60"
+                        <input v-model="payloadFinance.exp" type="text" name="exp" id="exp" class="rounded outline-none w-full"
                             placeholder="0" />
                     </div>
                     <div class="flex flex-col">
                         <label for="information">Information</label>
                         <textarea v-model="payloadFinance.information" name="information" id="information"
-                            class="rounded outline-none w-60" placeholder="information" cols="20" rows="5"></textarea>
+                            class="rounded outline-none w-full" placeholder="information" cols="20" rows="5"></textarea>
                         <small class="text-red-600">
                             {{ message }}
                         </small>
                     </div>
                 </div>
 
-                <div v-if="isInvent">
+                <div v-if="isInvent" class="w-full">
                     <div class="flex flex-col">
                         <label for="name">Name</label>
                         <input v-model="payloadInventory.name" type="text" name="name" id="name" class="rounded outline-none w-full"
@@ -43,7 +43,7 @@
                     <div class="flex flex-row gap-x-2">
                         <div class="flex flex-col">
                             <label for="price">Price</label>
-                            <input v-model="payloadInventory.price" type="text" name="price" id="price" class="rounded outline-none w-60"
+                            <input v-model="payloadInventory.price" type="text" name="price" id="price" class="rounded outline-none w-full"
                                 placeholder="0" />
                         </div>
                         <div class="flex flex-col">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="text-right">
+                <div class="text-right w-full">
                     <button class="bg-green-600 p-2 w-24 rounded text-white font-semibold">
                         <p v-if="!isLoading">Submit</p>
                         <p v-else class="animate-spin">
@@ -208,7 +208,7 @@ watch(() => payloadInventory.price, (newValue) => {
 
 </script>
 
-<style scoped>
+<style>
 .recap-enter-active,
 .recap-leave-active {
     transition: transform 0.2s ease;

@@ -1,9 +1,9 @@
 <template>
+    <recapModal :is-recap="isRecap" :is-invent="isInvent" @close="closeModalRecap" @sendInfo="acceptInfo" />
+    <editRecapModal :is-show-update="showUpdate" :is-update-inv="isUpdateInv" @close="closeModalUpdate"  :data-invent="dataInvent" @sendInfo="acceptInfo"/>
     <MainLayout>
         <template v-slot:body>
             <section class="p-8 mt-10 relative font-poppins">
-                <recapModal :is-recap="isRecap" :is-invent="isInvent" @close="closeModalRecap" @sendInfo="acceptInfo" />
-                <editRecapModal :is-show-update="showUpdate" :is-update-inv="isUpdateInv" @close="closeModalUpdate"  :data-invent="dataInvent" @sendInfo="acceptInfo"/>
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Inventories</h1>
                     <button v-if="!userStore().isEmployee" type="button" @click="showModalRecap"
@@ -89,7 +89,7 @@ const isRecap = ref(false),
     isUpdateInv = ref(false),
     dataInvent = ref({})
 
-const showModalRecap = () => {
+const showModalRecap = () => {    
     isRecap.value = !isRecap.value
     isInvent.value = !isInvent.value
 }
