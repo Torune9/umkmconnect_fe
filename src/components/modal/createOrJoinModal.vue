@@ -1,8 +1,8 @@
 <template>
     <div v-if="isShowModal"
-        class="w-full h-full  fixed z-50 bg-black/20 flex justify-center items-center font-poppins">
+        class="w-full h-full fixed z-50 bg-black/20 flex justify-center items-center font-poppins pt-14">
         <form @submit.prevent="createOrJoin" enctype="multipart/form-data"
-            class="border flex flex-col items-center justify-center p-4 rounded gap-4 bg-white overflow-x-hidden overflow-y-auto max-h-screen max-w sm:max-w-md lg:max-w-lg">
+            class="border flex flex-col p-4 rounded gap-4 bg-white overflow-x-hidden overflow-y-auto max-h-full h-fit sm:max-w-md lg:max-w-lg">
             <div class="flex flex-row justify-between w-full">
                 <h1 class="text-xl sm:text-2xl font-semibold">{{ isShowCreate ? 'Create' : 'Join' }} Store</h1>
                 <button type="button" @click="closeModal"
@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="img" class="text-sm">Image</label>
-                    <input @change="setProfileImg" ref="files" type="file" id="img" name="img"
+                    <input @change="setProfileImg" ref="fileInput" type="file" id="img" name="img"
                         class="outline-none rounded text-sm border w-full" />
                     <div class="h-52" v-if="fileUpload.length > 0">
                         <img :src="src" class="object-cover h-full w-full border text-xs" />
@@ -83,15 +83,15 @@ const usrStore = userStore()
 const shopStore = storeShop()
 const loading = ref(false)
 
-const files = ref([])
+const fileInput = ref(null)
 const fileUpload = ref([])
 const src = ref('')
 const infoDesc = ref('')
 const isDisable = ref(false)
+
 const setProfileImg = () => {
-    const file = files.value.files
+    const file = fileInput.value.files
     fileUpload.value = [...file]
-    console.log(fileUpload.value)
     src.value = URL.createObjectURL(new Blob(fileUpload.value))
 }
 
@@ -105,11 +105,18 @@ const payload = reactive({
 const code = ref('')
 
 const emits = defineEmits(['close'])
+
 const closeModal = () => {
     payload.description = ''
     payload.name = ''
     payload.userId = '',
     payload.noHp = ''
+    code.value = ''
+    fileUpload.value = []
+    src.value = ''
+    if (fileInput.value) {
+        fileInput.value.value = '' // Hapus value file input
+    }
     emits('close', false)
 }
 
@@ -158,7 +165,7 @@ watch(
     () => payload.description,
     () => {
         if (payload.description.length > 50) {
-            infoDesc.value = 'Warning,max description is 225 character'
+            infoDesc.value = 'Warning, max description is 255 characters'
         } else {
             infoDesc.value = ''
         }

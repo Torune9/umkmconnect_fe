@@ -121,9 +121,10 @@ const orderViaWhatsApp = (product) => {
     if (!phoneNumber.startsWith('62')) {
         phoneNumber = '62' + phoneNumber;
     }
-
+    
     const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
     window.open(whatsappURL, '_blank');
 };
 
