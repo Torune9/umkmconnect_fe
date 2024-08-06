@@ -15,7 +15,7 @@
 
             <div class="w-full h-full rounded-md overflow-hidden ">
                 <div class="w-full h-full flex justify-center items-center overflow-hidden relative">
-                    <img v-if="store.dataAllStore[0].img"  class="h-full w-full object-cover" :src="`${URL}source/image/${store.dataAllStore[0].img}`" alt="">
+                    <img v-if="store.dataAllStore[0].img"  class="h-full w-full object-cover" :src="store.dataAllStore[0].img" alt="">
                     <div v-else class=" text-9xl">
                         <font-awesome-icon icon="fa-solid fa-store" />
                     </div>
@@ -32,9 +32,12 @@
                 <div @click="detailProduct(product)"  class="absolute cursor-pointer z-20 w-full h-full">
                 </div>
                 <div class="h-40 overflow-hidden flex justify-center items-center ">
-                    <picture>
-                        <img :src="`${URL}source/image/${product.img}`" alt="">
+                    <picture v-if="product.img">
+                        <img :src="product.img" alt="">
                     </picture>
+                    <div v-else class="w-full h-full flex justify-center items-center text-4xl bg-slate-50 text-black/40 ">
+                        <font-awesome-icon icon="fa-solid fa-image"/>
+                    </div>
                 </div>
                 <!-- products information -->
                 <div class="p-2 text-sm w-full flex flex-col gap-y-3">
@@ -78,7 +81,6 @@ import { userStore } from '@/stores/userStore';
 
 const store = storeShop()
 const route = useRoute()
-const URL = import.meta.env.VITE_APP_BASE_URL;
 const user = userStore()
 
 const isLoading = ref(false),
