@@ -24,7 +24,7 @@
                         </small>
                     </div>
                     <div class="w-full  h-full flex justify-center items-center overflow-hidden rounded-md">
-                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img" :src="`${URL}source/image/${store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img}`"
+                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img" :src="store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img"
                             alt="image store" class="h-full w-full object-cover">
                             <div v-else class=" text-9xl bg-slate-200 w-full h-full flex justify-center items-center text-black/40">
                         <font-awesome-icon icon="fa-solid fa-image" />
@@ -69,7 +69,7 @@
                         </button>
                         <div class="h-40 overflow-hidden ">
                             <picture v-if="product.img != null">
-                                <img :src="`${URL}source/image/${product.img}`" class="h-full w-full object-cover"
+                                <img :src="product.img" class="h-full w-full object-cover"
                                     alt="product image">
                             </picture>
                             <div v-else class="w-full h-full flex justify-center items-center bg-slate-100">
@@ -129,8 +129,6 @@ import { FwbSpinner } from 'flowbite-vue';
 import { onMounted, ref } from 'vue';
 import formatterRupiah from '@/service/utils/formatterRupiah';
 import { userStore } from '@/stores/userStore';
-
-const URL = import.meta.env.VITE_APP_BASE_URL
 
 const store = storeShop()
 
