@@ -11,8 +11,8 @@
                 <form @submit.prevent="updateUser"  class="flex flex-col justify-center border p-4 gap-y-4 w-96 rounded max-sm:w-80 ">
                     <div class="relative flex flex-col items-center justify-center">
                         <div class="w-32 h-32 max-sm:h-24 max-sm:w-24  rounded-full overflow-hidden flex justify-center items-center ">
-                           <div class="h-full w-full" v-if="src || userData.image">
-                            <img  :src="src ? src : userData.image" alt="" class="w-full h-full object-cover">
+                           <div class="h-90 w-90 flex justify-center items-center" v-if="src || userData.image">
+                            <img  :src="src ? src : userData.image" alt="" class="w-full h-full">
                            </div>
                             <div v-else class="bg-yellow-400 w-full h-full text-white flex justify-center items-center text-7xl max-sm:text-4xl " >
                                 {{ userData.username.charAt(0).toUpperCase() }}
