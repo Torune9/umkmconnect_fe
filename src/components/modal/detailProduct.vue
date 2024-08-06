@@ -11,8 +11,11 @@
                 </button>
             </div>
             <div class="w-full overflow-hidden">
-                <img :src="`${URL}source/image/${dataProduct.img}`" alt="image product"
+                <img v-if="dataProduct.img" :src="dataProduct.img" alt="image product"
                     class="w-full h-full object-cover">
+                <div v-else class="w-full h-full bg-slate-100 flex justify-center items-center text-4xl text-black/50">
+                    <font-awesome-icon icon="fa-solid fa-store" />
+                </div>
             </div>
             <div class="flex flex-col gap-2 h-full overflow-hidden">
                 <h1>
@@ -36,8 +39,6 @@
 </template>
 
 <script setup>
-
-const URL = import.meta.env.VITE_APP_BASE_URL
 import formatterRupiah from '@/service/utils/formatterRupiah';
 
 const props = defineProps({
