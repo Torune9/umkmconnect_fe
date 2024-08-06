@@ -34,8 +34,6 @@
 import { watch } from 'vue';
 import CorouselImage from './corouselImage.vue';
 
-const URL = import.meta.env.VITE_APP_BASE_URL;
-
 const props = defineProps({
   dataStore: {
     type: Array,
@@ -46,12 +44,11 @@ const props = defineProps({
 
 const imageProduct = (products) => {
   return products.map(product => ({
-    src: `${URL}source/image/${product.img}`,
+    src: product.img,
     alt: product.name || 'Product Image'
   }));
 }
 
-const url = '/store/profile/detail/';
 
 watch(() => props.dataStore, () => {
   console.log(props.dataStore);
