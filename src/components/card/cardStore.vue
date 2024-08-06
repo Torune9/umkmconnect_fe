@@ -34,6 +34,8 @@
 import { watch } from 'vue';
 import CorouselImage from './corouselImage.vue';
 
+const url = '/store/profile/detail/';
+
 const props = defineProps({
   dataStore: {
     type: Array,
