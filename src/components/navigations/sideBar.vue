@@ -1,7 +1,7 @@
 <template>
     <nav class="h-full w-[300px]">
         <div
-            class="h-full pt-16 pl-4 pr-4 border-r max-md:bg-white/30 max-md:backdrop-blur-sm flex flex-col justify-between">
+            class="h-full pt-16 pl-4 pr-4 border-r max-md:bg-black/30 max-md:backdrop-blur-sm flex flex-col justify-between">
             <ul class="flex flex-col gap-2 font-poppins text-[12px] font-semibold text-black max-md:w-1/2">
                 <li v-for="menu, index in menus" :key="index">
                     <router-link :to="menu.path" class="block" active-class="text-white bg-black/40 rounded"
