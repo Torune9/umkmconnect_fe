@@ -133,6 +133,12 @@
               <template #item-id="{ id }">
                 {{ '#' + id }}
               </template>
+               <template #expand="item">
+                  <small class="block border p-2 md:w-1/2 max-h-24 overflow-y-auto overflow-x-auto rounded bg-slate-100">
+                    <h1 class="font-semibold">Here your information:</h1>
+                      {{ item.description ? item.description : 'Information not avalaible' }}
+                  </small>
+                </template>
             </EasyDataTable>
           </section>
 
