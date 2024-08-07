@@ -78,13 +78,14 @@ import NavBarHome from '@/components/navigations/navBarHome.vue';
 import detailProductModal from '@/components/modal/detailProduct.vue';
 import { storeShop } from '@/stores/storeShop';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import formatterRupiah from '@/service/utils/formatterRupiah';
 import LoadingPage from '@/components/util/loadingPage.vue';
 import { userStore } from '@/stores/userStore';
 
 const store = storeShop()
 const route = useRoute()
+const router = useRouter()
 const user = userStore()
 
 const isLoading = ref(false),
@@ -115,31 +116,36 @@ const close = (data)=>{
 }
 
 const orderProduct = async (product) => {
-    console.log(product);
-    
-    loading.value = !loading.value
-    const payload = {
-        items : product,
-        customer : {
-            name : user.userData.username,
-            email : user.userData.email
-        }
-    }
-
-    await store.getTokenTransaction(payload)
-    .then(response => {
-        const {token} = response
-        console.log(response.token);
-        window.snap.pay(token);
-        
-    })
-    .catch(error => {
-        console.log(error);
-        
-    })
-    .finally(()=>{
+    if (user.isLogin) {
         loading.value = !loading.value
-    })
+        
+        const payload = {
+            items : product,
+            customer : {
+                name : user.userData.username,
+                email : user.userData.email
+            }
+        }
+    
+        await store.getTokenTransaction(payload)
+        .then(response => {
+            const {token} = response
+            console.log(response.token);
+            window.snap.pay(token);
+            
+        })
+        .catch(error => {
+            console.log(error);
+            
+        })
+        .finally(()=>{
+            loading.value = !loading.value
+        
+        })
+    }else{
+        return router.replace('/user/login')
+
+    }
     // let phoneNumber = store.dataAllStore[0].phoneNumber;
 
     // // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara

@@ -30,6 +30,12 @@
                 </li>
             </ul>
             <ul class="font-poppins text-sm font-semibold text-[11px]">
+                <router-link to="/user/profile">       
+                    <li 
+                        class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
+                        Profile
+                    </li>
+                </router-link>
                 <li @click="logout"
                     class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
                     Logout

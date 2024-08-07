@@ -1,7 +1,8 @@
 <template>
+    <navBarHome/>
     <LoadingPage :isLoading="loading" />
     <main
-        class="w-screen h-screen flex flex-col justify-center items-center gap-y-2 font-inter bg-gradient-to-r from-homeMain to-homeSec">
+        class="w-full h-screen flex flex-col justify-center items-center gap-y-2 font-inter bg-gradient-to-r from-homeMain to-homeSec">
         <fwb-alert v-if="info" icon :type="inform.type" class="bg-white">
             {{ inform.errors.message ?? inform.success.message }}
         </fwb-alert>
@@ -72,6 +73,7 @@ import { required, email } from '@vuelidate/validators'
 import { computed, onMounted, reactive, ref ,watch} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { FwbAlert } from 'flowbite-vue';
+import navBarHome from '@/components/navigations/navBarHome.vue';
 
 const inform = reactive({
     type : '',
