@@ -82,9 +82,6 @@
                             <div class="flex flex-row h-10 w-full items-center">
                                 <div class="flex flex-col w-full">
                                     <h3 class="font-bold w-full">{{ product.name }}</h3>
-                                    <p class="text-[12px] text-justify">
-                                        stock : {{ product.stock }}
-                                    </p>
                                 </div>
                                 <h4 class="font-semibold overflow-auto w-full">
                                     {{ formatterRupiah.formatPriceToIDR(product.price) }}</h4>

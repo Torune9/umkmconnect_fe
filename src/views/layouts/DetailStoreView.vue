@@ -44,7 +44,6 @@
                     <div class="flex flex-row h-10 w-full items-center">
                         <div class="flex flex-col w-full">
                             <h3 class="font-bold w-full">{{ product.name }}</h3>
-                            <h1>Stock: {{ product.stock }}</h1>
                         </div>
                         <h4 class="font-semibold overflow-auto w-full">
                             {{ formatterRupiah.formatPriceToIDR(product.price) }}
@@ -53,9 +52,14 @@
                     <p class="text-[12px] text-justify">
                         {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
                     </p>
-                    <button type="button"  @click="orderViaWhatsApp(product)"
+                    <button type="button"  @click="orderProduct(product)"
                         class=" bg-green-700 w-40 h-8 rounded text-white hover:bg-green-500 transition-colors duration-300 z-30">
-                        order
+                        <p v-if="!loading">
+                            order
+                        </p>
+                        <p v-else class="animate-spin">
+                            <font-awesome-icon icon="fa-solid fa-spinner"/>
+                        </p>
                     </button>
                 </div>
             </div>
@@ -84,7 +88,8 @@ const route = useRoute()
 const user = userStore()
 
 const isLoading = ref(false),
-isDetail = ref(false)
+isDetail = ref(false),
+loading = ref(false)
 const dataProduct = ref([])
 
 const getDetailStore = async () => {
@@ -109,23 +114,48 @@ const close = (data)=>{
     dataProduct.value = []
 }
 
-const orderViaWhatsApp = (product) => {
-    let phoneNumber = store.dataAllStore[0].phoneNumber;
-
-    // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
-    if (phoneNumber.startsWith('+')) {
-        phoneNumber = phoneNumber.substring(1);
-    }
-
-    // Tambahkan kode negara jika belum ada
-    if (!phoneNumber.startsWith('62')) {
-        phoneNumber = '62' + phoneNumber;
-    }
+const orderProduct = async (product) => {
+    console.log(product);
     
-    const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    loading.value = !loading.value
+    const payload = {
+        items : product,
+        customer : {
+            name : user.userData.username,
+            email : user.userData.email
+        }
+    }
 
-    window.open(whatsappURL, '_blank');
+    await store.getTokenTransaction(payload)
+    .then(response => {
+        const {token} = response
+        console.log(response.token);
+        window.snap.pay(token);
+        
+    })
+    .catch(error => {
+        console.log(error);
+        
+    })
+    .finally(()=>{
+        loading.value = !loading.value
+    })
+    // let phoneNumber = store.dataAllStore[0].phoneNumber;
+
+    // // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
+    // if (phoneNumber.startsWith('+')) {
+    //     phoneNumber = phoneNumber.substring(1);
+    // }
+
+    // // Tambahkan kode negara jika belum ada
+    // if (!phoneNumber.startsWith('62')) {
+    //     phoneNumber = '62' + phoneNumber;
+    // }
+    
+    // const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
+    // const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    // window.open(whatsappURL, '_blank');
 };
 
 

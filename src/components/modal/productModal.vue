@@ -19,11 +19,6 @@
             <input type="text" name="price" id="price" class="rounded outline-none text-sm w-full"
               v-model="payload.price" />
           </div>
-          <div class="w-1/3">
-            <label for="stock">Stock</label>
-            <input type="number" name="stock" id="stock" class="rounded outline-none text-sm w-full"
-              v-model="payload.stock" />
-          </div>
         </div>
         <div class="flex flex-col">
           <label for="image">Image</label>
@@ -98,7 +93,6 @@ const close = () => {
   emits('close', !props.showModalCreateProd)
   payload.name = ''
   payload.price = ''
-  payload.stock = 0
   payload.information = ''
   clearFile()
 }
@@ -108,7 +102,6 @@ const messages = ref('')
 const payload = reactive({
   name: '',
   price: 0,
-  stock: 0,
   information: '',
 })
 
@@ -197,7 +190,6 @@ const updateProduct = async () => {
   loading.value = true
   const newPayload = {
     name: payload.name,
-    stock: payload.stock,
     price: formatterRupiah.convertToNumber(payload.price),
     information: payload.information,
     storeId: store.dataStore.id

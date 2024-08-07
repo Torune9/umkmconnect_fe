@@ -86,6 +86,13 @@ export const storeShop = defineStore('store',{
             .catch(error => {
                 throw error
             })
+        },
+        async getTokenTransaction(payload){
+            return api.post('product/payment',payload)
+            .then(resposne => resposne.data)
+            .catch(error => {
+                throw error
+            })
         }
         
     },

@@ -22,9 +22,6 @@
                     Price : <span class="font-semibold text-red-700
                         text-lg">{{ formatterRupiah.formatPriceToIDR(dataProduct.price) }}</span>
                 </h1>
-                <h2>
-                    Stock : <span class="font-semibold text-red-700 text-lg">{{ dataProduct.stock }}</span>
-                </h2>
                 <h3>
                     Description :
                 </h3>
