@@ -86,6 +86,12 @@
                 <template #item-id="{ id }">
                   {{ '#' + id }}
                 </template>
+                <template #expand="item">
+                  <small class="block border p-2 md:w-1/2 max-h-24 overflow-y-auto overflow-x-auto rounded bg-slate-100">
+                    <h1 class="font-semibold">Here your information:</h1>
+                      {{ item.description ? item.description : 'Information not avalaible' }}
+                  </small>
+                </template>
               </EasyDataTable>
             </div>
           </section>
@@ -284,7 +290,7 @@ const getWorkspaceByStatus = async () => {
   isLoadingByStatus.value = !isLoadingByStatus.value
   await workspace.getWorkspaceByStatus(store.dataStore?.id ?? user.dataStoreEmployee?.id, infoStatus.value)
     .then(response => {
-    taskByStatus.value =   response.data.reduce((acc, current) => {
+      taskByStatus.value = response.data.reduce((acc, current) => {
         return acc.concat(current.tasks);
       }, [])
     })
@@ -328,7 +334,7 @@ const getStoreAsEmployee = async () => {
         workspace.tasks = [...workspace.tasks, ...val.tasks]
       })
     })
-    // .catch((error) => console.log(error))
+  // .catch((error) => console.log(error))
 }
 
 watch(
