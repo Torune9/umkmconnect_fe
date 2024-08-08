@@ -13,11 +13,16 @@
           <label for="name">Product name</label>
           <input type="text" id="name" name="name" class="rounded outline-none text-sm" v-model="payload.name" />
         </div>
-        <div class="flex flex-row gap-1 w-full">
-          <div>
+        <div class="flex flex-row gap-1 w-full border ">
+          <div class="w-full">
             <label for="price">Price</label>
             <input type="text" name="price" id="price" class="rounded outline-none text-sm w-full"
               v-model="payload.price" />
+          </div>
+          <div class="flex flex-col w-fit">
+            <label for="stock">stock</label>
+            <input min="0" type="number" name="stock" id="stock" class="rounded outline-none text-sm w-20"
+              v-model="payload.stock" />
           </div>
         </div>
         <div class="flex flex-col">
@@ -101,6 +106,7 @@ const messages = ref('')
 
 const payload = reactive({
   name: '',
+  stock : 0,
   price: 0,
   information: '',
 })
@@ -192,7 +198,8 @@ const updateProduct = async () => {
     name: payload.name,
     price: formatterRupiah.convertToNumber(payload.price),
     information: payload.information,
-    storeId: store.dataStore.id
+    storeId: store.dataStore.id,
+    stock : payload.stock
   }
   const dataForm = pairsPayload(newPayload)
   await store
@@ -235,5 +242,8 @@ watch(() => payload.price, (newValue) => {
 
   payload.price = formatterRupiah.formatRupiah(newValue.toString());
 });
+
+
+
 
 </script>

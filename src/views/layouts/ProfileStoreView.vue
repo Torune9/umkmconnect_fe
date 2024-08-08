@@ -24,11 +24,13 @@
                         </small>
                     </div>
                     <div class="w-full  h-full flex justify-center items-center overflow-hidden rounded-md">
-                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img" :src="store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img"
+                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img"
+                            :src="store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img"
                             alt="image store" class="h-full w-full object-cover">
-                            <div v-else class=" text-9xl bg-slate-200 w-full h-full flex justify-center items-center text-black/40">
-                        <font-awesome-icon icon="fa-solid fa-image" />
-                    </div>
+                        <div v-else
+                            class=" text-9xl bg-slate-200 w-full h-full flex justify-center items-center text-black/40">
+                            <font-awesome-icon icon="fa-solid fa-image" />
+                        </div>
                     </div>
                 </section>
                 <!-- button create -->
@@ -60,7 +62,7 @@
                     <!-- card wrapper -->
                     <div class="w-60 h-90 overflow-hidden rounded relative  shadow-md"
                         v-for="product, index of store.dataProducts" :key="index">
-                        <div @click="detailProduct(product)"  class="absolute cursor-pointer z-20 w-full h-full">
+                        <div @click="detailProduct(product)" class="absolute cursor-pointer z-20 w-full h-full">
                         </div>
                         <!-- button confirm -->
                         <button @click="showConfirm(product.id)" type="button"
@@ -69,8 +71,7 @@
                         </button>
                         <div class="h-40 overflow-hidden ">
                             <picture v-if="product.img != null">
-                                <img :src="product.img" class="h-full w-full object-cover"
-                                    alt="product image">
+                                <img :src="product.img" class="h-full w-full object-cover" alt="product image">
                             </picture>
                             <div v-else class="w-full h-full flex justify-center items-center bg-slate-100">
                                 <font-awesome-icon icon="fa-solid fa-image" size="2xl" />
@@ -89,10 +90,15 @@
                             <p class="text-[12px] text-justify cursor-pointer">
                                 {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
                             </p>
-                            <button type="button" @click="updateProduct(product)"
-                                class=" bg-fuchsia-700 w-40 h-8 rounded text-white hover:bg-fuchsia-500 transition-colors duration-300 z-30">
-                                edit
-                            </button>
+                            <div class="flex flex-row  gap-x-1 items-center w-full">
+                                <button type="button" @click="updateProduct(product)"
+                                    class=" bg-fuchsia-700 w-full h-8 rounded text-white hover:bg-fuchsia-500 transition-colors duration-300 z-30">
+                                    edit
+                                </button>
+                                <h2 class="text-[10px] font-semibold w-20 overflow-x-auto overflow-y-hidden">
+                                    Stock : {{ product.stock }}
+                                </h2>
+                            </div>
                         </div>
                     </div>
                     <!-- laoding page -->
@@ -188,7 +194,7 @@ const detailProduct = (data) => {
     isDetail.value = !isDetail.value
     dataProduct.value = data
 }
-const close = (data)=>{
+const close = (data) => {
     isDetail.value = data
     dataProduct.value = []
 }

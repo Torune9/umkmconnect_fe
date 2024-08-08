@@ -1,6 +1,5 @@
 <template>
-    <nav
-        class="bg md:h-14 w-full h-12 flex items-center justify-between p-4 font-inter backdrop-blur-sm  bg-black/20">
+    <nav class="bg md:h-14 w-full h-12 flex items-center justify-between p-4 font-inter backdrop-blur-sm  bg-black/20">
         <div class="font-black group cursor-pointer">
             <router-link to="/dashboard">
                 <h1 class="text-xl text-slate-700 group-hover:text-slate-600 transition-colors duration-300">UMKM<span
@@ -9,6 +8,10 @@
             </router-link>
         </div>
         <div class="flex flex-row gap-4">
+            <router-link to="/" active-class="text-white bg-black/20 rounded" exact-active-class="text-white">
+                <button
+                    class=" text-black p-2 font-poopins font-bold rounded-md w-20 text-sm hover:bg-slate-100 transition-colors duration-300">Home</button>
+            </router-link>
             <router-link to="/user/login">
                 <button
                     class="bg-red-700 p-2 font-poopins font-bold text-white rounded-md w-20 text-sm hover:bg-red-500 transition-colors duration-300">Login</button>
