@@ -1,5 +1,5 @@
 <template>
-    <navBarHome/>
+    <navBarHome class="sticky top-0"/>
     <LoadingPage :isLoading="loading" />
     <main
         class="w-full h-screen flex flex-col justify-center items-center gap-y-2 font-inter bg-gradient-to-r from-homeMain to-homeSec">

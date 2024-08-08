@@ -8,9 +8,9 @@
             </router-link>
         </div>
         <div class="flex flex-row gap-4">
-            <router-link to="/" active-class="text-white bg-black/20 rounded" exact-active-class="text-white">
+            <router-link to="/" active-class="text-white bg-white/20 rounded" exact-active-class="text-white">
                 <button
-                    class=" text-black p-2 font-poopins font-bold rounded-md w-20 text-sm hover:bg-slate-100 transition-colors duration-300">Home</button>
+                    class="text-main  p-2 font-poopins font-bold rounded-md w-20 text-sm hover:bg-black/20 transition-colors duration-300">Home</button>
             </router-link>
             <router-link to="/user/login">
                 <button
