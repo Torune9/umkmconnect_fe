@@ -28,7 +28,7 @@
                                     <font-awesome-icon icon="fa-solid fa-spinner" />
                                 </p>
                             </button>
-                            <small class="text-green-600">{{ message }}</small>
+                            <small class="text-green-600 w-1/2">{{ message }}</small>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3">
