@@ -1,9 +1,9 @@
 <template>
     <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
+    <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @click="sideBar(false)" v-if="dataSide" />
     <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
     <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading" />
-    <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @click="sideBar(false)" v-if="dataSide" />
     <section class="w-full h-full flex flex-col items-center font-poppins gap-1 p-4 ">
         <!-- profile -->
         <div class="h-80 max-sm:h-64 w-full overflow-hidden flex flex-col gap-1 rounded-md">
