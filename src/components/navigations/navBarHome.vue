@@ -9,7 +9,7 @@
         </div>
         <div class="md:hidden">
             <!-- Button for toggling dropdown -->
-            <button @click="isMenuOpen = !isMenuOpen" class="text-white focus:outline-none">
+            <button @click="isMenuOpen = !isMenuOpen" class="text-white bg-red-700 p-2 rounded-md focus:outline-none hover:bg-red-600 transition-colors duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
@@ -30,7 +30,7 @@
             </router-link>
         </div>
         <!-- Mobile dropdown menu -->
-        <div v-show="isMenuOpen" class="absolute top-full left-0 w-full bg-black/20 md:hidden flex flex-col gap-2 p-4">
+        <div v-show="isMenuOpen" class="absolute top-full left-0 w-full bg-white/20 md:hidden flex flex-col gap-2 p-4">
             <router-link to="/" active-class="text-white bg-white/20 rounded" exact-active-class="text-white">
                 <button
                     class="text-main  p-2 font-poopins font-bold rounded-md w-full text-sm hover:bg-black/20 transition-colors duration-300">Home</button>

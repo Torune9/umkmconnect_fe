@@ -1,6 +1,6 @@
 <template>
     <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
-    <NavBarHome v-else class="bg-white" />
+    <NavBarHome v-else class="bg-white sticky top-0 z-50" />
     <LoadingPage :isLoading="isLoading" />
     <Transition name="sidebar">
         <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @createWorkspace="workspaceCreate"
