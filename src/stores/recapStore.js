@@ -35,6 +35,15 @@ export const recapStore = defineStore('recap',{
             .catch(error => {
                 throw error
             })
+        },
+        async generatePdf(storeId,payload){
+            return await api.post(`/user/finance/report/${storeId}`,payload,{
+                responseType : 'blob'
+            })
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
         }
     },
     getters :{

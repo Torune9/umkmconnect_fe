@@ -8,10 +8,29 @@
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>
-                    <button v-if="!userStore().isEmployee" @click="showModalRecap" type="button"
-                        class="bg-green-600 p-2 font-poppins text-sm rounded font-bold w-28 text-white hover:bg-green-500 transition-all duration-300">
-                        Recap
-                    </button>
+                    <div class="w-full flex flex-row justify-between items-center">
+                        <button v-if="!userStore().isEmployee" @click="showModalRecap" type="button"
+                            class="bg-green-600 p-2 font-poppins text-sm rounded font-bold w-28 h-10 text-white hover:bg-green-500 transition-all duration-300">
+                            Recap
+                        </button>
+                        <div class="flex flex-col gap-2 items-end">
+                            <div class="flex flex-col text-sm w-full items-end">
+                                <label for="date">Choose Date</label>
+                                <input v-model="dateReport" type="date" id="date" name="date"
+                                    class="text-sm rounded w-fit">
+                            </div>
+                            <button @click="generateReport" type="button"
+                                class="bg-red-600 p-2 font-poppins text-sm rounded font-bold w-40 text-white hover:bg-red-500 transition-all duration-300">
+                                <p v-if="!isloading">
+                                    Generate Report
+                                </p>
+                                <p v-else class="animate-spin">
+                                    <font-awesome-icon icon="fa-solid fa-spinner" />
+                                </p>
+                            </button>
+                            <small class="text-green-600">{{ message }}</small>
+                        </div>
+                    </div>
                     <div class="flex flex-col gap-3">
                         <div v-if="info.message" class="flex justify-center">
                             <h1 class="p-[10px] border rounded w-64 text-center relative" :class="[
@@ -63,7 +82,7 @@
 import MainLayout from '@/layout/mainLayout.vue';
 import recapModal from '@/components/modal/recapModal.vue'
 import editRecapModal from '@/components/modal/editRecapModal.vue'
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { recapStore } from '@/stores/recapStore';
 import { storeShop } from '@/stores/storeShop';
 import formatterRupiah from '@/service/utils/formatterRupiah';
@@ -114,6 +133,8 @@ const isRecap = ref(false),
     isUpdateFin = ref(false),
     dataFin = ref({})
 
+const dateReport = ref('')
+
 const info = reactive({
     message: '',
     type: ''
@@ -155,12 +176,58 @@ const getRecapFinance = async () => {
         })
 }
 
+
+const isloading = ref(false)
+const message = ref('')
+const generateReport = async () => {
+    isloading.value = !isloading.value
+    const payload = {
+        year: '',
+        month: ''
+    }
+    if (dateReport.value) {
+        const date = new Date(dateReport.value);
+        payload.year = date.getFullYear();
+        payload.month = date.getMonth() + 1;
+    }
+    await recap.generatePdf(store.dataStore?.id, payload)
+        .then((response) => {
+            console.log(response);
+            const url = window.URL.createObjectURL(new Blob([response], { type: 'application/pdf' }));
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'finance_report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            message.value = 'generate report success'
+
+        })
+        .catch(error => {
+            message.value = 'please choose date before generate report'
+            console.log(error);
+
+        })
+        .finally(() => {
+            isloading.value = !isloading.value
+        })
+}
+
 onMounted(async () => {
     if (store.dataStore.id) {
         await getRecapFinance()
     }
 })
 
+watch(() => dateReport.value, () => {
+    const date = new Date(dateReport.value)
+
+    console.log(date.getFullYear());
+    console.log(date.getMonth());
+
+})
 </script>
 
 <style scoped>
