@@ -206,7 +206,7 @@ const generateReport = async () => {
 
         })
         .catch(error => {
-            message.value = 'please choose date before generate report'
+            message.value = 'failed generate report,please choose date before generate report or create first your recap finance'
             console.log(error);
 
         })
