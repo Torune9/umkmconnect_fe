@@ -1,8 +1,9 @@
 <template>
     <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
-    <NavBarMain v-if="user.isLogin" />
+    <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
     <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading" />
+    <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @click="sideBar(false)" v-if="dataSide" />
     <section class="w-full h-full flex flex-col items-center font-poppins gap-1 p-4 ">
         <!-- profile -->
         <div class="h-80 max-sm:h-64 w-full overflow-hidden flex flex-col gap-1 rounded-md">
@@ -87,6 +88,7 @@
 import NavBarMain from '@/components/navigations/navBarMain.vue';
 import NavBarHome from '@/components/navigations/navBarHome.vue';
 import detailProductModal from '@/components/modal/detailProduct.vue';
+import SideBar from '@/components/navigations/sideBar.vue';
 import { storeShop } from '@/stores/storeShop';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -101,7 +103,8 @@ const user = userStore()
 
 const isLoading = ref(false),
     isDetail = ref(false),
-    loading = ref(false)
+    loading = ref(false),
+    dataSide = ref(false)
 const dataProduct = ref([])
 
 const getDetailStore = async () => {
@@ -125,10 +128,17 @@ const close = (data) => {
     isDetail.value = data
     dataProduct.value = []
 }
+const sideBar = (data) => {
+    dataSide.value = data
+    console.log(data);
+}
+
 
 const orderProduct = async (product) => {
+    console.log(product);
+
     if (user.isLogin) {
-        loading.value = !loading.value
+        loading.value = true;
 
         const payload = {
             items: product,
@@ -136,44 +146,88 @@ const orderProduct = async (product) => {
                 name: user.userData.username,
                 email: user.userData.email
             }
+        };
+
+        try {
+            const response = await store.getTokenTransaction(payload);
+            const { token } = response;
+            console.log(response.token);
+            window.snap.pay(token, {
+                onSuccess: function (result) {
+                    console.log('Payment success!', result);
+                    // Lakukan sesuatu setelah pembayaran sukses
+                },
+                onPending: function (result) {
+                    console.log('Payment pending...', result);
+                    // Lakukan sesuatu ketika pembayaran pending
+                },
+                onError: function (result) {
+                    console.log('Payment failed!', result);
+                    // Lakukan sesuatu jika pembayaran gagal
+                },
+                onClose: function () {
+                    console.log('Payment popup closed without finishing payment');
+                    // Lakukan sesuatu jika popup ditutup
+                }
+            });
+        } catch (error) {
+            console.log('Error during transaction:', error);
+        } finally {
+            loading.value = false;
         }
-
-        await store.getTokenTransaction(payload)
-            .then(response => {
-                const { token } = response
-                console.log(response.token);
-                window.snap.pay(token);
-
-            })
-            .catch(error => {
-                console.log(error);
-
-            })
-            .finally(() => {
-                loading.value = !loading.value
-
-            })
     } else {
-        return router.replace('/user/login')
-
+        return router.replace('/user/login');
     }
-    // let phoneNumber = store.dataAllStore[0].phoneNumber;
-
-    // // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
-    // if (phoneNumber.startsWith('+')) {
-    //     phoneNumber = phoneNumber.substring(1);
-    // }
-
-    // // Tambahkan kode negara jika belum ada
-    // if (!phoneNumber.startsWith('62')) {
-    //     phoneNumber = '62' + phoneNumber;
-    // }
-
-    // const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
-    // const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-    // window.open(whatsappURL, '_blank');
 };
+
+// const orderProduct = async (product) => {
+//     if (user.isLogin) {
+//         loading.value = !loading.value
+
+//         const payload = {
+//             items: product,
+//             customer: {
+//                 name: user.userData.username,
+//                 email: user.userData.email
+//             }
+//         }
+
+//         await store.getTokenTransaction(payload)
+//             .then(response => {
+//                 const { token } = response
+//                 console.log(response.token);
+//                 window.snap.pay(token);
+
+//             })
+//             .catch(error => {
+//                 console.log(error);
+
+//             })
+//             .finally(() => {
+//                 loading.value = !loading.value
+
+//             })
+//     } else {
+//         return router.replace('/user/login')
+
+//     }
+//     // let phoneNumber = store.dataAllStore[0].phoneNumber;
+
+//     // // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
+//     // if (phoneNumber.startsWith('+')) {
+//     //     phoneNumber = phoneNumber.substring(1);
+//     // }
+
+//     // // Tambahkan kode negara jika belum ada
+//     // if (!phoneNumber.startsWith('62')) {
+//     //     phoneNumber = '62' + phoneNumber;
+//     // }
+
+//     // const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
+//     // const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+//     // window.open(whatsappURL, '_blank');
+// };
 
 
 
