@@ -82,6 +82,13 @@ export const userStore = defineStore('users',{
             .catch(error => {
                 throw error
             })
+        },
+        async setRoleuser(id,role){
+            return await api.put(`user/role/${id}`,role)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
         }
     },
     getters : {

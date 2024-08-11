@@ -7,25 +7,25 @@
             <popupConfirm :isConfirm="isShowConfirm" @close="closeConfirm" :id="productId" :productData="productData"
                 @sendMessage="acceptMessage" />
             <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
-            <div v-if="userStore().isShowStore || store.isShowStore">
+            <div v-if="user.isShowStore || store.isShowStore">
                 <!-- description store -->
                 <section
                     class="mt-16 mb-2 flex justify-center flex-row h-60 p-2 gap-x-2 max-md:flex-col max-md:gap-y-2 ">
                     <div
                         class="p-4 font-poppins w-full flex flex-col justify-center items-center bg-gradient-to-b from-indigo-600 to-red-800 rounded-md text-white relative">
                         <h1 class="font-bold text-center text-4xl max-sm:text-xl">
-                            {{ store.dataStore?.name ? store.dataStore?.name.toUpperCase() : userStore().dataStoreEmployee.name.toUpperCase() }}
+                            {{ store.dataStore?.name ? store.dataStore?.name.toUpperCase() : user.dataStoreEmployee.name.toUpperCase() }}
                         </h1>
                         <p class=" text-center text-sm">
-                            {{ store.dataStore?.description ? store.dataStore?.description : userStore().dataStoreEmployee.description }}
+                            {{ store.dataStore?.description ? store.dataStore?.description : user.dataStoreEmployee.description }}
                         </p>
                         <small
-                            class="font-semibold absolute  text-white/50 bottom-2 right-2">code:#{{ store.dataStore.code ? store.dataStore?.code : userStore().dataStoreEmployee.code }}
+                            class="font-semibold absolute  text-white/50 bottom-2 right-2">code:#{{ store.dataStore.code ? store.dataStore?.code : user.dataStoreEmployee.code }}
                         </small>
                     </div>
                     <div class="w-full  h-full flex justify-center items-center overflow-hidden rounded-md">
-                        <img v-if="store.dataStore.img || userStore().dataStoreEmployee.img"
-                            :src="store.dataStore?.img ? store.dataStore.img : userStore().dataStoreEmployee.img"
+                        <img v-if="store.dataStore.img || user.dataStoreEmployee.img"
+                            :src="store.dataStore?.img ? store.dataStore.img : user.dataStoreEmployee.img"
                             alt="image store" class="h-full w-full object-cover">
                         <div v-else
                             class=" text-9xl bg-slate-200 w-full h-full flex justify-center items-center text-black/40">
@@ -34,7 +34,7 @@
                     </div>
                 </section>
                 <!-- button create -->
-                <setion class="p-2">
+                <setion class="p-2" v-if="!user.isEmployee ||  (user.isEmployee && user.userData.role == 'operator' )">
                     <button
                         class="bg-green-700 w-48 h-11 rounded text-white font-semibold hover:bg-green-500 duration-300 transition-colors"
                         @click="() => {
@@ -134,6 +134,7 @@ import formatterRupiah from '@/service/utils/formatterRupiah';
 import { userStore } from '@/stores/userStore';
 
 const store = storeShop()
+const user = userStore()
 
 const productData = ref(null)
 const dataProduct = ref([])
@@ -163,7 +164,7 @@ const acceptMessage = ({ message, type }) => {
 
 const getProductsStore = async () => {
     loading.value = true
-    await store.getproducts(store.dataStore?.id ? store.dataStore.id : userStore().userData.member)
+    await store.getproducts(store.dataStore?.id ? store.dataStore.id : user.userData.member)
         .then(response => {
             const { products } = response.data
             store.dataProducts = products
@@ -200,7 +201,7 @@ const close = (data) => {
 }
 
 onMounted(async () => {
-    if (userStore().isJoin || store.isShowStore) {
+    if (user.isJoin || store.isShowStore) {
 
         await getProductsStore()
     }

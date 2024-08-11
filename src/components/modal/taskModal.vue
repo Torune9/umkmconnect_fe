@@ -75,7 +75,7 @@ const store = storeShop()
 
 const payloadWork = reactive({
     name : '',
-    storeId: store.dataStore.id ?? userStore().dataStoreEmployee?.id,
+    storeId: store.dataStore.id ? store.dataStore.id: userStore().dataStoreEmployee?.id,
 })
 
 const route = useRoute()

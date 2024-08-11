@@ -8,8 +8,8 @@
                 <div class="flex flex-col gap-y-2">
                     <h1 class="w-full text-center text-xl font-poppins font-bold border-b sm:text-2xl">Finance
                         Recapitulation</h1>
-                    <div class="w-full flex flex-row justify-between items-center">
-                        <button v-if="!userStore().isEmployee" @click="showModalRecap" type="button"
+                    <div v-if="!user.isEmployee ||  (user.isEmployee && user.userData.role == 'operator' )" class="w-full flex flex-row justify-between items-center">
+                        <button @click="showModalRecap" type="button"
                             class="bg-green-600 p-2 font-poppins text-sm rounded font-bold w-28 h-10 text-white hover:bg-green-500 transition-all duration-300">
                             Recap
                         </button>
@@ -91,6 +91,7 @@ import { userStore } from '@/stores/userStore';
 
 const recap = recapStore()
 const store = storeShop()
+const user = userStore()
 
 
 const headers = [

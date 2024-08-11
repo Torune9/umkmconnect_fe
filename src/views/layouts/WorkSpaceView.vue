@@ -18,7 +18,7 @@
 
         <section v-else class="flex flex-col gap-y-3">
           <!-- Button cretae -->
-          <section v-if="route.params.id">
+          <section v-if="route.params.id && (!user.isEmployee ||  (user.isEmployee && user.userData.role == 'operator' ))">
             <button
               class="border w-full h-12 p-2 rounded font-poppins hover:bg-blue-200 hover:border-none transition-all duration-300 hover:text-white font-bold"
               @click="showCreateModalTask">

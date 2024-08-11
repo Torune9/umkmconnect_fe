@@ -33,7 +33,7 @@
         <div v-show="isMenuOpen" class="absolute top-full left-0 w-full bg-white/20 md:hidden flex flex-col gap-2 p-4">
             <router-link to="/" active-class="text-white bg-white/20 rounded" exact-active-class="text-white">
                 <button
-                    class="text-main  p-2 font-poopins font-bold rounded-md w-full text-sm hover:bg-black/20 transition-colors duration-300">Home</button>
+                    class="max-md:text-white text-black bg-green-500  p-2 font-poopins font-bold rounded-md w-full text-sm hover:bg-black/20 transition-colors duration-300">Home</button>
             </router-link>
             <router-link to="/user/login">
                 <button
