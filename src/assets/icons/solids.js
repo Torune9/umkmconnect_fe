@@ -42,7 +42,8 @@ import {
     faThumbTack,
     faPeopleGroup,
     faTriangleExclamation,
-    faStore
+    faStore,
+    faBookmark
 
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -90,5 +91,6 @@ export const solid = {
     faThumbTack,
     faPeopleGroup,
     faTriangleExclamation,
-    faStore
+    faStore,
+    faBookmark
 }

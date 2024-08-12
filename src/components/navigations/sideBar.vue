@@ -34,6 +34,12 @@
                         Profile
                     </li>
                 </router-link>
+                <router-link to="/user/order">       
+                    <li 
+                        class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
+                        Order List
+                    </li>
+                </router-link>
                 <li @click="logout"
                     class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
                     Logout

@@ -14,6 +14,8 @@ import StoreView from '@/views/layouts/StoreView.vue'
 import DetailStoreView from '@/views/layouts/DetailStoreView.vue'
 import ForgotPassword from '@/views/auth/forgotPassword.vue'
 import NotFoundView from '@/views/layouts/NotFoundView.vue'
+import PaymentPage  from '@/views/payment/paymentPageView.vue'
+import orderPage  from '@/views/payment/orderPageView.vue'
 
 import navGuard from '@/service/navGuard'
 
@@ -90,6 +92,18 @@ const router = createRouter({
       path : '/user/profile',
       name : 'profile-user',
       component : ProfileUserView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path : '/transaction/status',
+      name : 'transaction',
+      component : PaymentPage,
+      meta: { requiresAuth: true }
+    },
+    {
+      path : '/user/order',
+      name : 'order',
+      component : orderPage,
       meta: { requiresAuth: true }
     },
     {

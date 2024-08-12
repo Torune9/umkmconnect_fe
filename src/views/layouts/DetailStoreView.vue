@@ -155,21 +155,21 @@ const orderProduct = async (product) => {
             window.snap.pay(token, {
                 onSuccess: function (result) {
                     console.log('Payment success!', result);
-                    // Lakukan sesuatu setelah pembayaran sukses
+                    router.push({ path: '/transaction/status', query: { status: 'success' } });
                 },
                 onPending: function (result) {
                     console.log('Payment pending...', result);
-                    // Lakukan sesuatu ketika pembayaran pending
+                    router.push({ path: '/transaction/status', query: { status: 'pending' } });
                 },
                 onError: function (result) {
                     console.log('Payment failed!', result);
-                    // Lakukan sesuatu jika pembayaran gagal
+                    router.push({ path: '/transaction/status', query: { status: 'failed' } });
                 },
                 onClose: function () {
                     console.log('Payment popup closed without finishing payment');
-                    // Lakukan sesuatu jika popup ditutup
                 }
             });
+
         } catch (error) {
             console.log('Error during transaction:', error);
         } finally {

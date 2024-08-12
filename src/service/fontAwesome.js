@@ -31,6 +31,8 @@ export default {
             solid.faTriangleExclamation,
             solid.faPenToSquare,
             solid.faStore,
+            solid.faBookmark,
+            solid.faTrashCan,
             brands.faGoogle,
             brands.faIoxhost,
             regulars.faCommentDots,

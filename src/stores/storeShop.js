@@ -93,6 +93,27 @@ export const storeShop = defineStore('store',{
             .catch(error => {
                 throw error
             })
+        },
+        async getOrder(email){
+            return api.get(`order?email=${email}`)
+            .then(resposne => resposne.data)
+            .catch(error => {
+                throw error
+            })
+        },
+        async updateOrderStatus (orderId,payload){
+            return await api.put(`/order/${orderId}`,payload)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
+        },
+        async deleteOrder (orderId){
+            return await api.delete(`/order/${orderId}`)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
         }
         
     },
