@@ -157,7 +157,7 @@ const updateInvOrFin = async () => {
             exp: formatterRupiah.convertToNumber(payloadRecap.exp),
             information: payloadRecap.information
         }
-        return await recap.updateRecapFinance(store.dataStore.id, payload)
+        return await recap.updateRecapFinance(store.dataStore.id,props.dataFin.id, payload)
             .then(response => {
                 messages.value = response.message
                 emits('sendInfo', {

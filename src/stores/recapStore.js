@@ -29,8 +29,8 @@ export const recapStore = defineStore('recap',{
                 throw error
             })
         },
-        async updateRecapFinance(storeId,payload){
-            return await api.put(`user/finance/${storeId}`,payload)
+        async updateRecapFinance(storeId,id,payload){
+            return await api.put(`user/finance/${storeId}/${id}`,payload)
             .then(response => response.data)
             .catch(error => {
                 throw error
