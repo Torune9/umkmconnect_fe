@@ -1,237 +1,181 @@
 <template>
     <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
+    <checkoutModal :isCheckout="isCheckout" :data-product="dataProduct" @close="close" @confirmCheckout="orderProduct" />
     <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @click="sideBar(false)" v-if="dataSide" />
     <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
     <NavBarHome v-else class="bg-white" />
     <LoadingPage :isLoading="isLoading" />
     <section class="w-full h-full flex flex-col items-center font-poppins gap-1 p-4 ">
-        <!-- profile -->
-        <div class="h-80 max-sm:h-64 w-full overflow-hidden flex flex-col gap-1 rounded-md">
-
-            <div class="w-full flex flex-col justify-center items-center">
-                <h4
-                    class="w-full text-center text-6xl font-bold text-white bg-gradient-to-r from-indigo-900 to-main p-5 max-sm:text-2xl ">
-                    {{ store.dataAllStore[0].name }}
-                </h4>
-            </div>
-
-            <div class="w-full h-full rounded-md overflow-hidden ">
-                <div class="w-full h-full flex justify-center items-center overflow-hidden relative">
-                    <img v-if="store.dataAllStore[0].img" class="h-full w-full object-cover"
-                        :src="store.dataAllStore[0].img" alt="">
-                    <div v-else class=" text-9xl">
-                        <font-awesome-icon icon="fa-solid fa-store" />
-                    </div>
-                    <p
-                        class="absolute text-white  w-full h-full bg-main/30 backdrop-blur-sm text-center p-10 overflow-auto">
-                        {{ store.dataAllStore[0].description }} Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Beatae, animi!
-                    </p>
-                </div>
-            </div>
+      <!-- profile -->
+      <div class="h-80 max-sm:h-64 w-full overflow-hidden flex flex-col gap-1 rounded-md">
+        <div class="w-full flex flex-col justify-center items-center">
+          <h4 class="w-full text-center text-6xl font-bold text-white bg-gradient-to-r from-indigo-900 to-main p-5 max-sm:text-2xl">
+            {{ store.dataAllStore[0].name }}
+          </h4>
         </div>
-        <!-- list product -->
-        <div v-if="store.dataAllStore[0].products !== undefined && Object.entries(store.dataAllStore[0].products).length !== 0"
-            class="w-full h-full pl-28 pr-28 p-2 flex flex-wrap justify-center items-center  gap-2 bg-gradient-to-b from-indigo-900 to-black rounded-t-md border max-md:p-2 ">
-            <div class="border h-90 w-60 max-sm:w-full overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white "
-                v-for="product, i of store.dataAllStore[0].products" :key="i">
-                <div @click="detailProduct(product)" class="absolute cursor-pointer z-20 w-full h-full">
-                </div>
-                <div class="h-40 overflow-hidden flex justify-center items-center ">
-                    <picture v-if="product.img">
-                        <img :src="product.img" alt="">
-                    </picture>
-                    <div v-else
-                        class="w-full h-full flex justify-center items-center text-4xl bg-slate-50 text-black/40 ">
-                        <font-awesome-icon icon="fa-solid fa-image" />
-                    </div>
-                </div>
-                <!-- products information -->
-                <div class="p-2 text-sm w-full flex flex-col gap-y-3">
-                    <div class="flex flex-row h-10 w-full items-center">
-                        <div class="flex flex-col w-full">
-                            <h3 class="font-bold w-full">{{ product.name }}</h3>
-                        </div>
-                        <h4 class="font-semibold overflow-auto w-full">
-                            {{ formatterRupiah.formatPriceToIDR(product.price) }}
-                        </h4>
-                    </div>
-                    <p class="text-[12px] text-justify">
-                        {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
-                    </p>
-                    <div class="w-full flex flex-row gap-x-1 items-center">
-                        <button type="button" @click="orderProduct(product)"
-                            class=" bg-green-700 w-full h-8 rounded text-white hover:bg-green-500 transition-colors duration-300 z-30">
-                            <p v-if="!loading">
-                                order
-                            </p>
-                            <p v-else class="animate-spin">
-                                <font-awesome-icon icon="fa-solid fa-spinner" />
-                            </p>
-                        </button>
-                        <h2 class="text-[10px] font-semibold w-20 overflow-x-auto overflow-y-hidden">
-                            Stock : {{ product.stock }}
-                        </h2>
-                    </div>
-                </div>
+        <div class="w-full h-full rounded-md overflow-hidden">
+          <div class="w-full h-full flex justify-center items-center overflow-hidden relative">
+            <img v-if="store.dataAllStore[0].img" class="h-full w-full object-cover" :src="store.dataAllStore[0].img" alt="">
+            <div v-else class="text-9xl">
+              <font-awesome-icon icon="fa-solid fa-store" />
             </div>
-
+            <p class="absolute text-white w-full h-full bg-main/30 backdrop-blur-sm text-center p-10 overflow-auto">
+              {{ store.dataAllStore[0].description }}
+            </p>
+          </div>
         </div>
-        <div v-else class="w-full h-full text-center">
-            <h1 class="text-3xl text-black/50 font-bold max-sm:text-lg ">This shop doesn't have any products yet</h1>
+      </div>
+      <!-- list product -->
+      <div v-if="store.dataAllStore[0].products !== undefined && Object.entries(store.dataAllStore[0].products).length !== 0"
+           class="w-full h-full pl-28 pr-28 p-2 flex flex-wrap justify-center items-center gap-2 bg-gradient-to-b from-indigo-900 to-black rounded-t-md border max-md:p-2">
+        <div class="border h-90 w-60 max-sm:w-full overflow-hidden rounded relative bg-black/50 backdrop-blur-md text-white"
+             v-for="product, i of store.dataAllStore[0].products" :key="i">
+          <div @click="detailProduct(product)" class="absolute cursor-pointer z-20 w-full h-full"></div>
+          <div class="h-40 overflow-hidden flex justify-center items-center">
+            <picture v-if="product.img">
+              <img :src="product.img" alt="">
+            </picture>
+            <div v-else class="w-full h-full flex justify-center items-center text-4xl bg-slate-50 text-black/40">
+              <font-awesome-icon icon="fa-solid fa-image" />
+            </div>
+          </div>
+          <!-- products information -->
+          <div class="p-2 text-sm w-full flex flex-col gap-y-3">
+            <div class="flex flex-row h-10 w-full items-center">
+              <div class="flex flex-col w-full">
+                <h3 class="font-bold w-full">{{ product.name }}</h3>
+              </div>
+              <h4 class="font-semibold overflow-auto w-full">
+                {{ formatterRupiah.formatPriceToIDR(product.price) }}
+              </h4>
+            </div>
+            <p class="text-[12px] text-justify">
+              {{ product.information.length > 20 ? product.information.slice(0, 30) : product.information }}....
+            </p>
+            <div class="w-full flex flex-row gap-x-1 items-center">
+              <button type="button" @click="checkout(product)"
+                      :class="{'bg-green-700': !loading[i], 'bg-gray-500': loading[i]}"
+                      class="w-full h-8 rounded text-white hover:bg-green-500 transition-colors duration-300 z-30">
+                <p v-if="!loading[i]">Order</p>
+                <p v-else class="animate-spin">
+                  <font-awesome-icon icon="fa-solid fa-spinner" />
+                </p>
+              </button>
+              <h2 class="text-[10px] font-semibold w-20 overflow-x-auto overflow-y-hidden">
+                Stock: {{ product.stock }}
+              </h2>
+            </div>
+          </div>
         </div>
-
+      </div>
+      <div v-else class="w-full h-full text-center">
+        <h1 class="text-3xl text-black/50 font-bold max-sm:text-lg">This shop doesn't have any products yet</h1>
+      </div>
     </section>
-</template>
-
-<script setup>
-import NavBarMain from '@/components/navigations/navBarMain.vue';
-import NavBarHome from '@/components/navigations/navBarHome.vue';
-import detailProductModal from '@/components/modal/detailProduct.vue';
-import SideBar from '@/components/navigations/sideBar.vue';
-import { storeShop } from '@/stores/storeShop';
-import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import formatterRupiah from '@/service/utils/formatterRupiah';
-import LoadingPage from '@/components/util/loadingPage.vue';
-import { userStore } from '@/stores/userStore';
-
-const store = storeShop()
-const route = useRoute()
-const router = useRouter()
-const user = userStore()
-
-const isLoading = ref(false),
+  </template>
+  
+  <script setup>
+  import NavBarMain from '@/components/navigations/navBarMain.vue';
+  import NavBarHome from '@/components/navigations/navBarHome.vue';
+  import detailProductModal from '@/components/modal/detailProduct.vue';
+  import checkoutModal from '@/components/modal/chekoutModal.vue';
+  import SideBar from '@/components/navigations/sideBar.vue';
+  import { storeShop } from '@/stores/storeShop';
+  import { onMounted, ref } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
+  import formatterRupiah from '@/service/utils/formatterRupiah';
+  import LoadingPage from '@/components/util/loadingPage.vue';
+  import { userStore } from '@/stores/userStore';
+  
+  const store = storeShop();
+  const route = useRoute();
+  const router = useRouter();
+  const user = userStore();
+  
+  const isLoading = ref(false),
     isDetail = ref(false),
-    loading = ref(false),
-    dataSide = ref(false)
-const dataProduct = ref([])
-
-const getDetailStore = async () => {
-    isLoading.value = !isLoading.value
+    isCheckout = ref(false),
+    loading = ref([]),
+    dataSide = ref(false);
+  const dataProduct = ref([]);
+  
+  const getDetailStore = async () => {
+    isLoading.value = true;
     await store.getAllStore(route.params.code)
-        // .then(response => {
-        //     console.log(response);
-        // })
-        // .catch(error => {
-        //     console.log(error.response);
-        // })
-        .finally(() => {
-            isLoading.value = !isLoading.value
-        })
-}
-const detailProduct = (data) => {
-    isDetail.value = !isDetail.value
-    dataProduct.value = data
-}
-const close = (data) => {
-    isDetail.value = data
-    dataProduct.value = []
-}
-const sideBar = (data) => {
-    dataSide.value = data
-    console.log(data);
-}
-
-
-const orderProduct = async (product) => {
-    console.log(product);
-
+      .finally(() => {
+        isLoading.value = false;
+      });
+  };
+  
+  const detailProduct = (data) => {
+    isDetail.value = true;
+    dataProduct.value = data;
+  };
+  
+  const checkout = (product) => {
+    isCheckout.value = true;
+    dataProduct.value = product;
+  };
+  
+  const close = () => {
+    isCheckout.value = false;
+    isDetail.value = false;
+    dataProduct.value = [];
+  };
+  
+  const sideBar = (data) => {
+    dataSide.value = data;
+  };
+  
+  const orderProduct = async (payload) => {
     if (user.isLogin) {
-        loading.value = true;
-
-        const payload = {
-            items: product,
-            customer: {
-                name: user.userData.username,
-                email: user.userData.email
-            }
-        };
-
-        try {
-            const response = await store.getTokenTransaction(payload);
-            const { token } = response;
-            console.log(response.token);
-            window.snap.pay(token, {
-                onSuccess: function (result) {
-                    console.log('Payment success!', result);
-                    router.push({ path: '/transaction/status', query: { status: 'success' } });
-                },
-                onPending: function (result) {
-                    console.log('Payment pending...', result);
-                    router.push({ path: '/transaction/status', query: { status: 'pending' } });
-                },
-                onError: function (result) {
-                    console.log('Payment failed!', result);
-                    router.push({ path: '/transaction/status', query: { status: 'failed' } });
-                },
-                onClose: function () {
-                    router.replace('/user/order');
-                }
-            });
-
-        } catch (error) {
-            console.log('Error during transaction:', error);
-        } finally {
-            loading.value = false;
-        }
+      const productIndex = store.dataAllStore[0].products.findIndex(p => p.id === payload.product.id);
+      loading.value[productIndex] = true;
+  
+      const checkoutPayload = {
+        items: payload.product,
+        quantity: payload.quantity,
+        totalPrice: payload.totalPrice,
+        customer: {
+          name: payload.name,
+          email: payload.email,
+        },
+      };
+  
+      try {
+        const response = await store.getTokenTransaction(checkoutPayload);
+        const { token } = response;
+  
+        window.snap.pay(token, {
+          onSuccess: function (result) {
+            console.log('Payment success!', result);
+            router.push({ path: '/transaction/status', query: { status: 'success' } });
+          },
+          onPending: function (result) {
+            console.log('Payment pending...', result);
+            router.push({ path: '/transaction/status', query: { status: 'pending' } });
+          },
+          onError: function (result) {
+            console.log('Payment failed!', result);
+            router.push({ path: '/transaction/status', query: { status: 'failed' } });
+          },
+          onClose: function () {
+            router.replace('/user/order');
+          }
+        });
+  
+      } catch (error) {
+        console.log('Error during transaction:', error);
+      } finally {
+        loading.value[productIndex] = false;
+      }
     } else {
-        return router.replace('/user/login');
+      return router.replace('/user/login');
     }
-};
-
-// const orderProduct = async (product) => {
-//     if (user.isLogin) {
-//         loading.value = !loading.value
-
-//         const payload = {
-//             items: product,
-//             customer: {
-//                 name: user.userData.username,
-//                 email: user.userData.email
-//             }
-//         }
-
-//         await store.getTokenTransaction(payload)
-//             .then(response => {
-//                 const { token } = response
-//                 console.log(response.token);
-//                 window.snap.pay(token);
-
-//             })
-//             .catch(error => {
-//                 console.log(error);
-
-//             })
-//             .finally(() => {
-//                 loading.value = !loading.value
-
-//             })
-//     } else {
-//         return router.replace('/user/login')
-
-//     }
-//     // let phoneNumber = store.dataAllStore[0].phoneNumber;
-
-//     // // Pastikan phoneNumber tidak memiliki tanda '+' dan memiliki kode negara
-//     // if (phoneNumber.startsWith('+')) {
-//     //     phoneNumber = phoneNumber.substring(1);
-//     // }
-
-//     // // Tambahkan kode negara jika belum ada
-//     // if (!phoneNumber.startsWith('62')) {
-//     //     phoneNumber = '62' + phoneNumber;
-//     // }
-
-//     // const message = `Halo, saya ingin memesan ${product.name} dengan harga ${formatterRupiah.formatPriceToIDR(product.price)}.`;
-//     // const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-//     // window.open(whatsappURL, '_blank');
-// };
-
-
-
-onMounted(async () => {
-    await getDetailStore()
-})
-</script>
+  };
+  
+  onMounted(async () => {
+    await getDetailStore();
+  });
+  </script>
+  
