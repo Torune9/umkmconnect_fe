@@ -138,7 +138,7 @@ import { formatDate } from '@/service/utils/formatDate';
                     await store.updateOrderStatus(data.order_id,{status : 'failed'})
                 },
                 onClose: function () {
-                    console.log('Payment popup closed without finishing payment');
+                  router.replace('/user/order');
                 }
             });
       } catch (error) {

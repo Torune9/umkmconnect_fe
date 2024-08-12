@@ -166,7 +166,7 @@ const orderProduct = async (product) => {
                     router.push({ path: '/transaction/status', query: { status: 'failed' } });
                 },
                 onClose: function () {
-                    console.log('Payment popup closed without finishing payment');
+                    router.replace('/user/order');
                 }
             });
 
