@@ -95,7 +95,7 @@ export const storeShop = defineStore('store',{
             })
         },
         async getOrder(email){
-            return api.get(`order/${email}}`)
+            return api.get(`order/${email}`)
             .then(resposne => resposne.data)
             .catch(error => {
                 throw error
