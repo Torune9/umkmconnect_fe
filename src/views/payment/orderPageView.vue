@@ -68,8 +68,10 @@
                   <td class="px-6 py-4">
                     {{formatDate( data.createdAt) }}
                   </td>
-                  <td @click="deleteOrder(data)"  class="px-6 py-4">
-                    <font-awesome-icon icon="fa-solid fa-trash-can"/>
+                  <td class="px-6 py-4">
+                    <button type="button" @click="deleteOrder(data)" class="border bg-white p-1 rounded z-20">
+                      <font-awesome-icon icon="fa-solid fa-trash-can"/>
+                    </button>
                   </td>
                 </tr>
               </tbody>
