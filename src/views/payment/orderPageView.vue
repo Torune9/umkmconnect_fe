@@ -46,6 +46,7 @@
                     'bg-green-200 text-green-800 hover:bg-green-100': data.status === 'settlement',
                     'bg-red-200 text-red-800 hover:bg-red-100': data.status === 'failed',
                     'bg-orange-200 text-orange-800 hover:bg-orange-100': data.status === 'pending',
+                    'bg-purple-200 text-purple-800 hover:bg-purple-100': data.status === 'cancelled',
                     'bg-gray-200 text-gray-800 hover:bg-gray-50': !data.status || data.status === 'not-paid'
                   }"
                   @click="handleRowClick(data)"
