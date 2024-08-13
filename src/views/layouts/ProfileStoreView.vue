@@ -95,9 +95,6 @@
                                     class=" bg-fuchsia-700 w-full h-8 rounded text-white hover:bg-fuchsia-500 transition-colors duration-300 z-30">
                                     edit
                                 </button>
-                                <h2 class="text-[10px] font-semibold w-20 overflow-x-auto overflow-y-hidden">
-                                    Stock : {{ product.stock }}
-                                </h2>
                             </div>
                         </div>
                     </div>

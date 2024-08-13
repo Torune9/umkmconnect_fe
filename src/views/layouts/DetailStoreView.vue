@@ -61,9 +61,6 @@
                   <font-awesome-icon icon="fa-solid fa-spinner" />
                 </p>
               </button>
-              <h2 class="text-[10px] font-semibold w-20 overflow-x-auto overflow-y-hidden">
-                Stock: {{ product.stock }}
-              </h2>
             </div>
           </div>
         </div>
