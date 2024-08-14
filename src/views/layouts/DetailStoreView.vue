@@ -1,6 +1,6 @@
 <template>
     <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
-    <checkoutModal :isCheckout="isCheckout" :data-product="dataProduct" @close="close" @confirmCheckout="orderProduct" />
+    <checkoutModal :isCheckout="isCheckout" :data-product="dataProduct" @close="close" @confirmCheckout="orderProduct" :storeId="store.dataAllStore[0].id " />
     <SideBar class="fixed h-full w-full max-md:z-50 md:hidden" @click="sideBar(false)" v-if="dataSide" />
     <NavBarMain v-if="user.isLogin" @showSidebar="sideBar" />
     <NavBarHome v-else class="bg-white" />
@@ -133,6 +133,7 @@
         items: payload.product,
         quantity: payload.quantity,
         totalPrice: payload.totalPrice,
+        storeId : payload.storeId,
         customer: {
           name: payload.name,
           email: payload.email,

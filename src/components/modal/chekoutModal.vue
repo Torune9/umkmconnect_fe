@@ -60,6 +60,9 @@ const props = defineProps({
     dataProduct: {
         type: Object,
         default: () => { }
+    },
+    storeId : {
+        type : Number,
     }
 })
 
@@ -86,7 +89,8 @@ const confirmCheckout = () => {
     emits('confirmCheckout', { 
         product: props.dataProduct, 
         ...payload, 
-        totalPrice: totalPrice.value 
+        totalPrice: totalPrice.value,
+        storeId : props.storeId
     });
     close();
 }

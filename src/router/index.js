@@ -16,6 +16,7 @@ import ForgotPassword from '@/views/auth/forgotPassword.vue'
 import NotFoundView from '@/views/layouts/NotFoundView.vue'
 import PaymentPage  from '@/views/payment/paymentPageView.vue'
 import orderPage  from '@/views/payment/orderPageView.vue'
+import productSalesPage from '@/views/payment/productSalesPage.vue'
 
 import navGuard from '@/service/navGuard'
 
@@ -104,6 +105,12 @@ const router = createRouter({
       path : '/user/order',
       name : 'order',
       component : orderPage,
+      meta: { requiresAuth: true }
+    },
+    {
+      path : '/product/sales',
+      name : 'sales',
+      component : productSalesPage,
       meta: { requiresAuth: true }
     },
     {

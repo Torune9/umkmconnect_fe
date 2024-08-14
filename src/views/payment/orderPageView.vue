@@ -28,6 +28,7 @@
                 <th scope="col" class="px-6 py-4">Name</th>
                 <th scope="col" class="px-6 py-4">Email</th>
                 <th scope="col" class="px-6 py-4">Quantity</th>
+                <th scope="col" class="px-6 py-4">Total Price</th>
                 <th scope="col" class="px-6 py-4">Status</th>
                 <th scope="col" class="px-6 py-4">Date</th>
                 <th scope="col" class="px-6 py-4">Action</th>
@@ -53,6 +54,7 @@
                 <td class="px-6 py-4">{{ data.name }}</td>
                 <td class="px-6 py-4">{{ data.email }}</td>
                 <td class="px-6 py-4">{{ data.quantity }}</td>
+                <td class="px-6 py-4">{{ formatterRupiah.formatPriceToIDR(data.total) }}</td>
                 <td class="px-6 py-4">{{ data.status ? data.status : 'not-paid' }}</td>
                 <td class="px-6 py-4">{{ formatDate(data.createdAt) }}</td>
                 <td class="px-6 py-4">
@@ -78,6 +80,7 @@ import { userStore } from '@/stores/userStore';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { formatDate } from '@/service/utils/formatDate';
+import formatterRupiah from '@/service/utils/formatterRupiah';
 
 const store = storeShop();
 const user = userStore();
@@ -122,14 +125,12 @@ const handleRowClick = async (data) => {
       window.snap.pay(data.token, {
         onSuccess: async ()=>{
           router.push({ path: '/transaction/status', query: { status: 'success' } });
-          await store.updateOrderStatus(data.order_id, { status: 'settlement' });
         },
         onPending: ()=>{
           router.push({ path: '/transaction/status', query: { status: 'pending' } });
         },
         onError: async ()=>{
           router.push({ path: '/transaction/status', query: { status: 'failed' } });
-          await store.updateOrderStatus(data.order_id, { status: 'failed' });
         },
         onClose: ()=>{
           router.replace('/user/order');

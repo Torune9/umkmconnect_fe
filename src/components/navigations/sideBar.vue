@@ -28,16 +28,16 @@
                 </li>
             </ul>
             <ul class="font-poppins text-sm font-semibold text-[11px] max-md:text-slate-200">
+                <router-link to="/user/order">       
+                    <li 
+                        class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
+                        Order
+                    </li>
+                </router-link>
                 <router-link to="/user/profile">       
                     <li 
                         class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
                         Profile
-                    </li>
-                </router-link>
-                <router-link to="/user/order">       
-                    <li 
-                        class="p-2 rounded w-full border-b hover:bg-black/50 hover:text-white transition-all duration-300 cursor-pointer ">
-                        Order List
                     </li>
                 </router-link>
                 <li @click="logout"
@@ -89,6 +89,11 @@ const menus = computed(() => {
         {
             name: 'Employee',
             path: '/employee',
+            isStore: store.getIshowStore || user.getIshowStore,
+        },
+        {
+            name: 'Product Sales',
+            path: '/product/sales',
             isStore: store.getIshowStore || user.getIshowStore,
         }
     ].filter(menu => menu.isStore === undefined || menu.isStore);

@@ -101,6 +101,13 @@ export const storeShop = defineStore('store',{
                 throw error
             })
         },
+        async getProductSales(id){
+            return api.get(`product/sales/${id}`)
+            .then(resposne => resposne.data)
+            .catch(error => {
+                throw error
+            })
+        },
         async updateOrderStatus (orderId,payload){
             return await api.put(`/order/${orderId}`,payload)
             .then(response => response.data)
