@@ -39,7 +39,7 @@
           </div>
           <div
             class="bg-slate-500/5 shadown-md p-2 rounded flex justify-center items-center flex-col row-start-3 col-start-1 col-span-5">
-            <h1 class="text-lg text-rose-500 font-bold font-poppins">4.Manage employee</h1>
+            <h1 class="text-lg text-rose-500 font-bold font-poppins">4.List employee</h1>
             <p class="text-justify">{{ datas.employee }}</p>
           </div>
 
@@ -64,8 +64,8 @@ const datas = {
   ,
   workspace: "Workspace adalah area kerja virtual yang memungkinkan pengguna untuk membuat, mengorganisir, dan mengelola tugas-tugas terkait proyek. Dalam workspace, pengguna dapat menambahkan anggota tim, menetapkan tugas, menetapkan tenggat waktu, dan melacak progres.",
   finance: " Recap Keuangan adalah fitur yang menyediakan ringkasan dan pelacakan semua transaksi keuangan yang terkait dengan proyek. Ini mencakup pencatatan pendapatan, pengeluaran.",
-  inventory: "Inventory adalah fitur yang memungkinkan pengguna untuk mengelola dan melacak persediaan barang yang dibutuhkan untuk proyek. Fitur ini membantu dalam pengelolaan stok barang, pembelian, dan pengeluaran barang.",
-  employee: "Recap Karyawan adalah fitur yang menyediakan ringkasan informasi mengenai karyawan yang terlibat dalam proyek. Ini mencakup posisi karyawan, tugas yang telah diselesaikan, dan kinerja karyawan."
+  inventory: "Inventory adalah fitur yang memungkinkan pengguna untuk mengelola dan melacak persediaan barang yang dibutuhkan untuk proyek. Fitur ini membantu dalam pengelolaan stok barang.",
+  employee: "Daftar Karyawan adalah fitur yang menyediakan ringkasan informasi mengenai karyawan yang terlibat dalam proyek. Ini mencakup posisi karyawan."
 }
 
 </script>
