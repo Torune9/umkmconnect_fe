@@ -1,6 +1,6 @@
 <template>
   <Transition name="modals">
-    <div class="absolute z-50 w-full h-screen flex justify-center items-center" v-if="showModalCreateProd">
+    <div class="fixed z-50 w-full h-screen flex justify-center items-center bg-black/50" v-if="showModalCreateProd">
       <form @submit.prevent="createOrUpdate" class="flex flex-col justify-center border rounded p-4 gap-2 bg-white w-96"
         enctype="multipart/form-data">
         <div class="flex flex-row justify-between">

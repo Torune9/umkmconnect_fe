@@ -1,13 +1,13 @@
 <template>
     <updateHoursOperational :is-update-hours="isUpdateHours" @close="closeUpdateOperational"/>
+    <productModal :show-modal-create-prod="showModal" @close="closeModalCreateprod" @sendMessage="acceptMessage"
+        :product-data="productData" :is-create="isCreate" />
+    <!-- confirm button -->
+    <popupConfirm :isConfirm="isShowConfirm" @close="closeConfirm" :id="productId" :productData="productData"
+        @sendMessage="acceptMessage" />
+    <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
     <MainLayout>
         <template v-slot:body>
-            <productModal :show-modal-create-prod="showModal" @close="closeModalCreateprod" @sendMessage="acceptMessage"
-                :product-data="productData" :is-create="isCreate" />
-            <!-- confirm button -->
-            <popupConfirm :isConfirm="isShowConfirm" @close="closeConfirm" :id="productId" :productData="productData"
-                @sendMessage="acceptMessage" />
-            <detailProductModal :isDetail="isDetail" :data-product="dataProduct" @close="close" />
             <div v-if="user.isShowStore || store.isShowStore">
                 <!-- description store -->
                 <section
