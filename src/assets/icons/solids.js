@@ -43,7 +43,9 @@ import {
     faPeopleGroup,
     faTriangleExclamation,
     faStore,
-    faBookmark
+    faBookmark,
+    faCalendarXmark,
+    faClock
 
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -92,5 +94,7 @@ export const solid = {
     faPeopleGroup,
     faTriangleExclamation,
     faStore,
-    faBookmark
+    faBookmark,
+    faCalendarXmark,
+    faClock
 }

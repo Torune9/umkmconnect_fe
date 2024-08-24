@@ -7,7 +7,8 @@ export const storeShop = defineStore('store',{
             dataStore : {},
             isShowStore : false,
             dataProducts : {},
-            dataAllStore : []
+            dataAllStore : [],
+            hours : []
         }
     },
     persist : true,
@@ -121,10 +122,28 @@ export const storeShop = defineStore('store',{
             .catch(error => {
                 throw error
             })
-        }
+        },
+        async getHours (storeId) { 
+            return await api.get(`user/store/opHours/${storeId}`)
+            .then(response =>{
+                this.hours = response.data.data
+                return response.data
+            })
+            .catch(error => {
+                throw error
+            })
+        },
+        async updateHours (payload) { 
+            return await api.put('user/store/opHours/update',payload)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
+        },
         
     },
     getters : {
-        getIshowStore : (state) => state.isShowStore
+        getIshowStore : (state) => state.isShowStore,
+        currentHours : (state) => state.hours
     }
 })

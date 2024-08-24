@@ -1,4 +1,5 @@
 <template>
+    <updateHoursOperational :is-update-hours="isUpdateHours" @close="closeUpdateOperational"/>
     <MainLayout>
         <template v-slot:body>
             <productModal :show-modal-create-prod="showModal" @close="closeModalCreateprod" @sendMessage="acceptMessage"
@@ -34,7 +35,8 @@
                     </div>
                 </section>
                 <!-- button create -->
-                <setion class="p-2" v-if="!user.isEmployee ||  (user.isEmployee && user.userData.role == 'operator' )">
+                <setion class="p-2 flex flex-row gap-4"
+                    v-if="!user.isEmployee || (user.isEmployee && user.userData.role == 'operator')">
                     <button
                         class="bg-green-700 w-48 h-11 rounded text-white font-semibold hover:bg-green-500 duration-300 transition-colors"
                         @click="() => {
@@ -43,7 +45,35 @@
                         }">
                         Create Product
                     </button>
+                    <button
+                        class="bg-red-700 w-48 h-11 rounded text-white font-semibold hover:bg-red-500 duration-300 transition-colors"
+                        @click="() => {
+                            showUpdateOperational()
+                        }">
+                        Update Operational Date
+                    </button>
                 </setion>
+
+                <section v-if="store.currentHours.length !== 0" class="mt-5 bg-white p-4 rounded-lg shadow-md">
+                    <h2 class="font-bold text-xl mb-4 text-indigo-700">Operational Hours</h2>
+                    <ul class="divide-y divide-gray-200">
+                        <li v-for="(hour, index) in store.currentHours" :key="index" class="flex justify-between py-2">
+                            <div class="flex items-center">
+                                <font-awesome-icon
+                                    :icon="hour.is_closed ? 'fa-solid fa-calendar-xmark' : 'fa-solid fa-clock'"
+                                    class="text-lg mr-2" :class="hour.is_closed ? 'text-red-500' : 'text-green-500'" />
+                                <span class="font-semibold text-gray-700">{{ hour.day_of_week }}</span>
+                            </div>
+                            <div>
+                                <span v-if="!hour.is_closed" class="text-gray-600">
+                                    {{ hour.open_time.slice(0, 5) }} - {{ hour.closed_time.slice(0, 5) }}
+                                </span>
+                                <span v-else class="text-red-500 font-medium">Closed</span>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
                 <!-- alert -->
                 <section class="w-full flex justify-center items-center mt-1" v-if="infoMessage">
                     <div class="w-fit p-4 rounded-md relative"
@@ -124,6 +154,7 @@ import productModal from '@/components/modal/productModal.vue';
 import detailProductModal from '@/components/modal/detailProduct.vue';
 import popupConfirm from '@/components/util/popupConfirm.vue';
 import MainLayout from '@/layout/mainLayout.vue';
+import updateHoursOperational from '@/components/modal/updateHoursOperational.vue'
 import { storeShop } from '@/stores/storeShop';
 import { FwbSpinner } from 'flowbite-vue';
 import { onMounted, ref } from 'vue';
@@ -197,7 +228,30 @@ const close = (data) => {
     dataProduct.value = []
 }
 
+const isUpdateHours = ref(false)
+
+const showUpdateOperational = () => {
+    isUpdateHours.value = !isUpdateHours.value
+}
+
+const closeUpdateOperational =async (data) => {
+    isUpdateHours.value = data
+    await getHourOp()
+}
+
+
+const getHourOp = async () => {
+    await store.getHours(store.dataStore.id ? store.dataStore.id : user.dataStoreEmployee.id)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
 onMounted(async () => {
+
+    await getHourOp()
     if (user.isJoin || store.isShowStore) {
 
         await getProductsStore()

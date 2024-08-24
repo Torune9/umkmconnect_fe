@@ -19,7 +19,7 @@
                 <div class="flex flex-col w-full">
                     <label for="phoneNumber" class="text-sm">Phone Number</label>
                     <input required id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
-                    class="outline-none rounded text-sm w-full"/>
+                        class="outline-none rounded text-sm w-full" />
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="img" class="text-sm">Image</label>
@@ -28,6 +28,24 @@
                     <div class="h-52" v-if="fileUpload.length > 0">
                         <img :src="src" class="object-cover h-full w-full border text-xs" />
                     </div>
+                </div>
+                <div class="flex flex-row w-full items-center gap-x-3">
+                    <div class="flex flex-col w-full">
+                        <label for="address" class="text-sm">Address</label>
+                        <input v-model="payload.address" required type="text" id="address" name="address"
+                            class="outline-none rounded text-sm w-full"
+                            placeholder="https://maps.app.goo.gl/JthWsBZHB4NXUdeA7" />
+                        <p v-if="messageLink" class="text-sm text-red-600">{{ messageLink }}</p>
+                    </div>
+                    <button @mouseover="showTooltip" @mouseleave="hideTooltip" type="button"
+                        class="h-5 w-5 bg-black rounded-full text-white text-center relative ">
+                        !
+
+                        <p v-if="visible"
+                            class="absolute top-0 right-0 rounded-md bg-black/50 backdrop-blur-md text-sm w-60 p-1">
+                            get your address from google maps,copy it,and paste in address field
+                        </p>
+                    </button>
                 </div>
                 <div class="flex flex-col w-full">
                     <label for="description" class="text-sm">Description</label>
@@ -68,6 +86,7 @@ import { userStore } from '@/stores/userStore'
 import { storeShop } from '@/stores/storeShop'
 import { reactive, ref, watch } from 'vue'
 
+
 const props = defineProps({
     isShowModal: {
         type: Boolean,
@@ -99,7 +118,8 @@ const payload = reactive({
     name: '',
     description: '',
     userId: usrStore.userData.id,
-    noHp: ''
+    noHp: '',
+    address: ''
 })
 
 const code = ref('')
@@ -110,8 +130,9 @@ const closeModal = () => {
     payload.description = ''
     payload.name = ''
     payload.userId = '',
-    payload.noHp = ''
+        payload.noHp = ''
     code.value = ''
+    payload.address = ''
     fileUpload.value = []
     src.value = ''
     if (fileInput.value) {
@@ -125,6 +146,7 @@ const createOrJoin = async () => {
     if (props.isShowCreate) {
         const formData = new FormData()
         formData.append('name', payload.name)
+        formData.append('address', payload.address)
         formData.append('description', payload.description)
         formData.append('userId', payload.userId)
         formData.append('phoneNumber', payload.noHp)
@@ -161,6 +183,16 @@ const createOrJoin = async () => {
     }
 }
 
+const visible = ref(false)
+
+const showTooltip = () => {
+    visible.value = true;
+};
+
+const hideTooltip = () => {
+    visible.value = false;
+};
+
 watch(
     () => payload.description,
     () => {
@@ -176,4 +208,21 @@ watch(
         }
     }
 )
+const googleMapsRegex = /^(https:\/\/www\.google\.com\/maps\/place\/.+|https:\/\/maps\.app\.goo\.gl\/.+)$/;
+
+const messageLink = ref('')
+
+watch(
+    () => payload.address,
+    (newAddress) => {
+        if (!googleMapsRegex.test(newAddress)) {
+            isDisable.value = true;
+            messageLink.value = 'value invalid'
+        } else {
+            isDisable.value = false;
+            messageLink.value = ''
+        }
+    }
+);
+
 </script>

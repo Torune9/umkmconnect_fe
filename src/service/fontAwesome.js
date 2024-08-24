@@ -33,6 +33,8 @@ export default {
             solid.faStore,
             solid.faBookmark,
             solid.faTrashCan,
+            solid.faCalendarXmark,
+            solid.faClock,
             brands.faGoogle,
             brands.faIoxhost,
             regulars.faCommentDots,
