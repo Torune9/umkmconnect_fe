@@ -101,6 +101,11 @@ const payload = reactive({
 const emits = defineEmits(['close'])
 
 const closeModal = () => {
+
+    payload.name =  shopStore.dataStore.name,
+    payload.description =  shopStore.dataStore.description,
+    payload.noHp =  shopStore.dataStore.phoneNumber,
+   payload. address =  shopStore.dataStore.address
     if (fileInput.value) {
         fileInput.value.value = '' // Hapus value file input
     }
