@@ -108,16 +108,11 @@ const closeModal = () => {
 }
 
 const updateStore = async () => {
-    // Ubah nomor telepon jika dimulai dengan 0 menjadi 62
-    if (payload.noHp.startsWith('0')) {
-        payload.noHp = '62' + payload.noHp.slice(1);
-    }
-
     if (!validatePhoneNumber(payload.noHp)) {
-        phoneNumberError.value = 'Invalid phone number. It must be an Indonesian phone number with a maximum of 12 digits.';
+        phoneNumberError.value = 'Invalid phone number. It must be a valid 12-digit Indonesian number.';
         return;
     }
-    
+
     loading.value = !loading.value
     const formData = new FormData()
     formData.append('name', payload.name)
@@ -141,22 +136,16 @@ const updateStore = async () => {
 }
 
 const validatePhoneNumber = (phoneNumber) => {
-    const indonesianPhoneNumberRegex = /^62\d{9,11}$/;
-    return indonesianPhoneNumberRegex.test(phoneNumber);
+    // Validasi nomor telepon yang hanya boleh terdiri dari angka dan memiliki panjang maksimal 12 digit
+    const phoneNumberRegex = /^0\d{11}$/;
+    return phoneNumberRegex.test(phoneNumber);
 }
 
 watch(
     () => payload.noHp,
     (newPhoneNumber) => {
-        if (newPhoneNumber.length > 12) {
-            phoneNumberError.value = 'Phone number cannot exceed 12 characters.';
-            isDisable.value = true;
-        } else if (newPhoneNumber.startsWith('0')) {
-            payload.noHp = '62' + newPhoneNumber.slice(1);
-        } 
-        
-        if (!validatePhoneNumber(payload.noHp)) {
-            phoneNumberError.value = 'Invalid phone number. It must start with 62 and contain 9 to 11 digits after "62".';
+        if (!validatePhoneNumber(newPhoneNumber)) {
+            phoneNumberError.value = 'Invalid phone number. It must be a valid 12-digit Indonesian number.';
             isDisable.value = true;
         } else {
             phoneNumberError.value = '';

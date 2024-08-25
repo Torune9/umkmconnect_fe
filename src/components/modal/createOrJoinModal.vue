@@ -18,7 +18,7 @@
           </div>
           <div class="flex flex-col w-full">
             <label for="phoneNumber" class="text-sm">Phone Number</label>
-            <input required id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 628123456789"
+            <input required maxlength="12"  id="phoneNumber" v-model="payload.noHp" type="text" placeholder="e.g., 081234567890"
                    class="outline-none rounded text-sm w-full"/>
             <p v-if="phoneNumberError" class="text-sm text-red-600">{{ phoneNumberError }}</p>
           </div>
@@ -84,7 +84,7 @@
   <script setup>
   import { userStore } from '@/stores/userStore'
   import { storeShop } from '@/stores/storeShop'
-  import { reactive, ref, watch, computed } from 'vue'
+  import { reactive, ref, watch } from 'vue'
   
   const props = defineProps({
     isShowModal: {
@@ -149,7 +149,7 @@
       formData.append('address', payload.address)
       formData.append('description', payload.description)
       formData.append('userId', payload.userId)
-      formData.append('phoneNumber', formattedPhoneNumber.value)
+      formData.append('phoneNumber', payload.noHp)
       formData.append('image', fileUpload.value[0])
       await shopStore
         .createStore(formData)
@@ -183,19 +183,17 @@
     }
   }
   
-  const formattedPhoneNumber = computed(() => {
-    if (payload.noHp.startsWith('0')) {
-      return `+62${payload.noHp.slice(1)}`
-    }
-    return payload.noHp
-  })
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^0\d{11}$/;
+    return phoneRegex.test(phone);
+  }
   
   watch(
     () => payload.noHp,
     (newNoHp) => {
-      if (newNoHp.length > 12) {
+      if (!validatePhoneNumber(newNoHp)) {
         isDisable.value = true
-        phoneNumberError.value = 'Phone number must not exceed 12 digits.'
+        phoneNumberError.value = 'Phone number must be exactly 12 digits and start with 0.'
       } else {
         isDisable.value = false
         phoneNumberError.value = ''
@@ -241,9 +239,8 @@
         isDisable.value = true
       } else {
         messageLink.value = ''
-        isDisable.value = false
-      }
+      isDisable.value = false
     }
-  )
-  </script>
-  
+  }
+)
+</script>
