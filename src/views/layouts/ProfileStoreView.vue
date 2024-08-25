@@ -1,5 +1,6 @@
 <template>
-    <updateHoursOperational :is-update-hours="isUpdateHours" @close="closeUpdateOperational"/>
+    <updateModalStore :is-show-modal="isShowUpdate" :is-show-create="isShowUpdate" @close="closeUpdateModal" />
+    <updateHoursOperational :is-update-hours="isUpdateHours" @close="closeUpdateOperational" />
     <productModal :show-modal-create-prod="showModal" @close="closeModalCreateprod" @sendMessage="acceptMessage"
         :product-data="productData" :is-create="isCreate" />
     <!-- confirm button -->
@@ -23,6 +24,9 @@
                         <small
                             class="font-semibold absolute  text-white/50 bottom-2 right-2">code:#{{ store.dataStore.code ? store.dataStore?.code : user.dataStoreEmployee.code }}
                         </small>
+                        <button @click="showUpdateStore" class="absolute top-2 right-2 bg-black/50 w-10 p-2 rounded-md">
+                            <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+                        </button>
                     </div>
                     <div class="w-full  h-full flex justify-center items-center overflow-hidden rounded-md">
                         <img v-if="store.dataStore.img || user.dataStoreEmployee.img"
@@ -152,6 +156,7 @@
 <script setup>
 import productModal from '@/components/modal/productModal.vue';
 import detailProductModal from '@/components/modal/detailProduct.vue';
+import updateModalStore from '@/components/modal/updateModalStore.vue';
 import popupConfirm from '@/components/util/popupConfirm.vue';
 import MainLayout from '@/layout/mainLayout.vue';
 import updateHoursOperational from '@/components/modal/updateHoursOperational.vue'
@@ -234,7 +239,7 @@ const showUpdateOperational = () => {
     isUpdateHours.value = !isUpdateHours.value
 }
 
-const closeUpdateOperational =async (data) => {
+const closeUpdateOperational = async (data) => {
     isUpdateHours.value = data
     await getHourOp()
 }
@@ -248,6 +253,24 @@ const getHourOp = async () => {
         .catch(error => {
             console.log(error);
         });
+}
+
+const isShowUpdate = ref(false)
+
+const showUpdateStore = () => {
+
+    isShowUpdate.value = !isShowUpdate.value
+}
+
+const closeUpdateModal = async (data) => {
+    isShowUpdate.value = data
+    if (!user.isEmployee) {
+        await store.getStore(user.userData.id)
+
+    } else {
+
+        await user.getStoreAsEmployee(user.userData.email)
+    }
 }
 onMounted(async () => {
 

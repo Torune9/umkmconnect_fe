@@ -52,6 +52,13 @@ export const storeShop = defineStore('store',{
                 throw error
             })
         },
+        async updateStore (id,payload){  
+            return await api.put(`/user/store/${id}`,payload)
+            .then(response => response.data)
+            .catch(error => {
+                throw error
+            })
+        },
         async createProduct(payload){
             console.log(payload);
             return await api.post('store/product',payload)
